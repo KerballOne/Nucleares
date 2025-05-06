@@ -16,6 +16,8 @@
     entity_id: number.total_power_output_mw
     above: 0
   actions:
+  - variables:
+      loop: '{{ states(''input_select.loop'')|string }}'
   - if:
     - condition: or
       conditions:
@@ -27,8 +29,6 @@
         above: sensor.demand_upperlimit
       alias: Power Output not within Demand Limits
     then:
-    - variables:
-        loop: '{{ states(''input_select.loop'')|string }}'
     - alias: Is Demand Delta small or large
       if:
       - condition: numeric_state
@@ -60,7 +60,7 @@
         action: rest_command.nucleares_webserver_set
         data:
           var: COOLANT_SEC_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
-          val: '{{ target_mscv | int * 10 / states(''number.sec_pump_2_efficiency'')
+          val: '{{ target_mscv | int * 10 / states(''input_number.sec_pump''+loop+''efficiency'')
             | int }}'
       - alias: If MSCV not at Target, adjust MSCV +/- 1
         if:
@@ -87,6 +87,11 @@
           minutes: 0
           seconds: '{{ 5 / states(''sensor.game_sim_speed'') | int }}'
           milliseconds: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
   mode: single
 - id: '1746027130216'
   alias: Core Target Temp

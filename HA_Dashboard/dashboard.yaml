@@ -6,6 +6,7 @@ views:
           - type: horizontal-stack
             cards:
               - type: custom:apexcharts-card
+                cache: false
                 header:
                   show: true
                   title: Core
@@ -23,7 +24,7 @@ views:
                         style:
                           colors:
                             - orange
-                            - white
+                            - yellow
                   - id: crit
                     opposite: true
                     min: -2
@@ -44,7 +45,7 @@ views:
                       labels:
                         style:
                           colors:
-                            - blue
+                            - cyan
                   - id: time
                     show: false
                 series:
@@ -55,11 +56,12 @@ views:
                   - entity: input_number.target_core_temp
                     yaxis_id: temp
                     curve: stepline
-                    color: white
+                    color: yellow
+                    stroke_dash: 1
                     stroke_width: 1
                   - entity: sensor.rods_pos_actual
                     yaxis_id: rods
-                    color: blue
+                    color: cyan
                     stroke_width: 3
                   - entity: sensor.core_state_criticality
                     yaxis_id: crit
@@ -78,7 +80,7 @@ views:
                   disable_config_validation: true
                 apex_config:
                   chart:
-                    height: 300px
+                    height: 250px
             grid_options:
               columns: full
         grid_options:
@@ -92,22 +94,13 @@ views:
               - type: custom:apexcharts-card
                 header:
                   show: true
-                  title: Chemicals
+                  title: Reactants
                   show_states: true
                   colorize_states: true
                 graph_span: 1h
                 yaxis:
-                  - id: boron
-                    align_to: 1000
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 4
-                      labels:
-                        style:
-                          colors:
-                            - pink
                   - id: generation
-                    opposite: true
+                    opposite: false
                     align_to: 10
                     decimals: 0
                     apex_config:
@@ -131,23 +124,23 @@ views:
                   - id: time
                     show: false
                 series:
-                  - entity: sensor.chem_boron_ppm
-                    yaxis_id: boron
-                    color: pink
-                    stroke_width: 3
                   - entity: sensor.core_xenon_generation
+                    name: Xenon Reactivity
                     yaxis_id: generation
                     color: red
                     stroke_width: 2
                   - entity: sensor.core_iodine_generation
+                    name: Iodine Reactivity
                     yaxis_id: generation
                     color: blue
                     stroke_width: 2
                   - entity: sensor.core_xenon_cumulative
+                    name: Xenon Concentration
                     yaxis_id: concentration
                     color: orange
                     stroke_width: 2
                   - entity: sensor.core_iodine_cumulative
+                    name: Iodine Concentration
                     yaxis_id: concentration
                     color: cyan
                     stroke_width: 2
@@ -164,10 +157,461 @@ views:
                   disable_config_validation: true
                 apex_config:
                   chart:
-                    height: 300px
+                    height: 250px
             grid_options:
               columns: full
-        column_span: 2
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Chemicals
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                yaxis:
+                  - id: boron
+                    align_to: 1000
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - cyan
+                  - id: pumps
+                    opposite: true
+                    align_to: 1
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - green
+                            - red
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.chem_boron_ppm
+                    yaxis_id: boron
+                    color: cyan
+                    stroke_width: 4
+                  - entity: sensor.chem_boron_dosage_actual
+                    name: Boron Dosing
+                    yaxis_id: pumps
+                    color: green
+                    stroke_width: 2
+                  - entity: sensor.chem_boron_filter_actual
+                    name: Boron Filtering
+                    yaxis_id: pumps
+                    color: red
+                    stroke_width: 2
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 250px
+            grid_options:
+              columns: full
+        column_span: 1.5
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Pump Speeds - Loop A
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                cache: false
+                yaxis:
+                  - id: pump
+                    opposite: true
+                    align_to: 20
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors: white
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.coolant_core_circulation_pump_0_speed
+                    name: Primary
+                    yaxis_id: pump
+                    color: yellow
+                    stroke_width: 3
+                  - entity: sensor.coolant_sec_circulation_pump_0_speed
+                    name: Secondary
+                    yaxis_id: pump
+                    color: blue
+                    stroke_width: 3
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: numeric_state
+                entity: sensor.mscv_0_opening_actual
+                above: 0
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Pump Speeds - Loop B
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                cache: false
+                yaxis:
+                  - id: pump
+                    opposite: true
+                    align_to: 20
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors: white
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.coolant_core_circulation_pump_1_speed
+                    name: Primary
+                    yaxis_id: pump
+                    color: yellow
+                    stroke_width: 3
+                  - entity: sensor.coolant_sec_circulation_pump_1_speed
+                    name: Secondary
+                    yaxis_id: pump
+                    color: blue
+                    stroke_width: 3
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: numeric_state
+                entity: sensor.mscv_1_opening_actual
+                above: 0
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Pump Speeds - Loop C
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                cache: false
+                yaxis:
+                  - id: pump
+                    opposite: true
+                    align_to: 20
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors: white
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.coolant_core_circulation_pump_2_speed
+                    name: Primary
+                    yaxis_id: pump
+                    color: yellow
+                    stroke_width: 3
+                  - entity: sensor.coolant_sec_circulation_pump_2_speed
+                    name: Secondary
+                    yaxis_id: pump
+                    color: blue
+                    stroke_width: 3
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: numeric_state
+                entity: sensor.mscv_2_opening_actual
+                above: 0
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Steam - Loop A
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                cache: false
+                yaxis:
+                  - id: mscv
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - cyan
+                  - id: balance
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - green
+                            - red
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.mscv_0_opening_actual
+                    name: MSCV
+                    yaxis_id: mscv
+                    curve: stepline
+                    color: cyan
+                    stroke_width: 3
+                  - entity: sensor.steam_gen_0_inlet
+                    name: STG INLET
+                    yaxis_id: balance
+                    color: green
+                    opacity: 0.6
+                    stroke_width: 4
+                  - entity: sensor.steam_gen_0_outlet
+                    name: STG OUTLET
+                    yaxis_id: balance
+                    color: red
+                    opacity: 0.6
+                    stroke_width: 4
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: numeric_state
+                entity: sensor.mscv_0_opening_actual
+                above: 0
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Steam - Loop B
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                cache: false
+                yaxis:
+                  - id: mscv
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - cyan
+                  - id: balance
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - green
+                            - red
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.mscv_1_opening_actual
+                    name: MSCV
+                    yaxis_id: mscv
+                    curve: stepline
+                    color: cyan
+                    stroke_width: 3
+                  - entity: sensor.steam_gen_1_inlet
+                    name: STG INLET
+                    yaxis_id: balance
+                    color: green
+                    opacity: 0.6
+                    stroke_width: 4
+                  - entity: sensor.steam_gen_1_outlet
+                    name: STG OUTLET
+                    yaxis_id: balance
+                    color: red
+                    opacity: 0.6
+                    stroke_width: 4
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: numeric_state
+                entity: sensor.mscv_1_opening_actual
+                above: 0
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Steam - Loop C
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                cache: false
+                yaxis:
+                  - id: mscv
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - cyan
+                  - id: balance
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - green
+                            - red
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.mscv_2_opening_actual
+                    name: MSCV
+                    yaxis_id: mscv
+                    curve: stepline
+                    color: cyan
+                    stroke_width: 3
+                  - entity: sensor.steam_gen_2_inlet
+                    name: STG INLET
+                    yaxis_id: balance
+                    color: green
+                    opacity: 0.6
+                    stroke_width: 4
+                  - entity: sensor.steam_gen_2_outlet
+                    name: STG OUTLET
+                    yaxis_id: balance
+                    color: red
+                    opacity: 0.6
+                    stroke_width: 4
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: numeric_state
+                entity: sensor.mscv_2_opening_actual
+                above: 0
+        column_span: 1
       - type: grid
         cards:
           - type: horizontal-stack
@@ -179,8 +623,10 @@ views:
                   show_states: true
                   colorize_states: true
                 graph_span: 1h
+                cache: false
                 yaxis:
                   - id: power
+                    opposite: true
                     align_to: 1
                     decimals: 0
                     apex_config:
@@ -190,15 +636,7 @@ views:
                           colors:
                             - green
                   - id: delta
-                    opposite: true
-                    align_to: 1
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - cyan
+                    show: false
                   - id: time
                     show: false
                 series:
@@ -207,18 +645,19 @@ views:
                     curve: stepline
                     yaxis_id: power
                     color: yellow
-                    stroke_width: 2
+                    opacity: 0.5
+                    stroke_width: 20
+                    stroke_dash: 4
                   - entity: number.total_power_output_mw
                     name: Output
                     yaxis_id: power
                     color: green
-                    stroke_width: 2
+                    stroke_width: 4
                   - entity: sensor.demand_delta
                     name: Demand/Output Delta
                     yaxis_id: delta
                     color: cyan
-                    opacity: 0.2
-                    stroke_width: 1
+                    stroke_width: 0
                   - entity: sensor.demand_lowerlimit
                     name: lower limit
                     curve: stepline
@@ -248,284 +687,16 @@ views:
                   disable_config_validation: true
                 apex_config:
                   chart:
-                    height: 300px
+                    height: 400px
             grid_options:
               columns: full
-        column_span: 2
-      - type: grid
-        cards:
-          - type: horizontal-stack
-            cards:
-              - type: custom:apexcharts-card
-                header:
-                  show: true
-                  title: Steam - Loop C
-                  icon: mdi:pot-steam
-                  show_states: true
-                  colorize_states: true
-                graph_span: 1h
-                yaxis:
-                  - id: pump
-                    align_to: 12
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - yellow
-                            - blue
-                  - id: mscv
-                    align_to: 10
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 4
-                      labels:
-                        style:
-                          colors:
-                            - orange
-                  - id: balance
-                    opposite: true
-                    align_to: 10
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - green
-                            - red
-                  - id: time
-                    show: false
-                series:
-                  - entity: sensor.coolant_core_circulation_pump_2_speed
-                    name: Primary
-                    yaxis_id: pump
-                    color: yellow
-                    stroke_width: 1
-                  - entity: sensor.coolant_sec_circulation_pump_2_speed
-                    name: Secondary
-                    yaxis_id: pump
-                    color: blue
-                    stroke_width: 1
-                  - entity: sensor.mscv_2_opening_actual
-                    name: MSCV
-                    yaxis_id: mscv
-                    curve: stepline
-                    color: orange
-                    stroke_width: 3
-                  - entity: sensor.steam_gen_2_inlet
-                    name: STG INLET
-                    yaxis_id: balance
-                    color: green
-                    opacity: 0.6
-                    stroke_width: 4
-                  - entity: sensor.steam_gen_2_outlet
-                    name: STG OUTLET
-                    yaxis_id: balance
-                    color: red
-                    opacity: 0.6
-                    stroke_width: 4
-                  - entity: input_number.timestamp
-                    yaxis_id: time
-                    color: grey
-                    type: column
-                    show:
-                      in_header: false
-                      legend_value: false
-                grid_options:
-                  columns: full
-                experimental:
-                  disable_config_validation: true
-                apex_config:
-                  chart:
-                    height: 300px
-            grid_options:
-              columns: full
-            visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_2_opening_actual
-                above: 0
-          - type: horizontal-stack
-            cards:
-              - type: custom:apexcharts-card
-                header:
-                  show: true
-                  title: Steam - Loop B
-                  icon: mdi:pot-steam
-                  show_states: true
-                  colorize_states: true
-                graph_span: 1h
-                yaxis:
-                  - id: pump
-                    align_to: 12
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - yellow
-                            - blue
-                  - id: mscv
-                    align_to: 10
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 4
-                      labels:
-                        style:
-                          colors:
-                            - orange
-                  - id: balance
-                    opposite: true
-                    align_to: 10
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - green
-                            - red
-                  - id: time
-                    show: false
-                series:
-                  - entity: sensor.coolant_core_circulation_pump_1_speed
-                    name: Primary
-                    yaxis_id: pump
-                    color: yellow
-                    stroke_width: 1
-                  - entity: sensor.coolant_sec_circulation_pump_1_speed
-                    name: Secondary
-                    yaxis_id: pump
-                    color: blue
-                    stroke_width: 1
-                  - entity: sensor.mscv_1_opening_actual
-                    name: MSCV
-                    yaxis_id: mscv
-                    color: orange
-                    stroke_width: 2
-                  - entity: sensor.steam_gen_1_inlet
-                    name: STG INLET
-                    yaxis_id: balance
-                    color: green
-                    stroke_width: 3
-                  - entity: sensor.steam_gen_1_outlet
-                    name: STG OUTLET
-                    yaxis_id: balance
-                    color: red
-                    stroke_width: 3
-                  - entity: input_number.timestamp
-                    yaxis_id: time
-                    color: grey
-                    type: column
-                    show:
-                      in_header: false
-                      legend_value: false
-                grid_options:
-                  columns: full
-                experimental:
-                  disable_config_validation: true
-                apex_config:
-                  chart:
-                    height: 300px
-            grid_options:
-              columns: full
-            visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_1_opening_actual
-                above: 0
-          - type: horizontal-stack
-            cards:
-              - type: custom:apexcharts-card
-                header:
-                  show: true
-                  title: Steam - Loop A
-                  icon: mdi:pot-steam
-                  show_states: true
-                  colorize_states: true
-                graph_span: 1h
-                yaxis:
-                  - id: pump
-                    align_to: 12
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - yellow
-                            - blue
-                  - id: mscv
-                    align_to: 10
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 4
-                      labels:
-                        style:
-                          colors:
-                            - orange
-                  - id: balance
-                    opposite: true
-                    align_to: 10
-                    decimals: 0
-                    apex_config:
-                      tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - green
-                            - red
-                  - id: time
-                    show: false
-                series:
-                  - entity: sensor.coolant_core_circulation_pump_0_speed
-                    name: Primary
-                    yaxis_id: pump
-                    color: yellow
-                    stroke_width: 1
-                  - entity: sensor.coolant_sec_circulation_pump_0_speed
-                    name: Secondary
-                    yaxis_id: pump
-                    color: blue
-                    stroke_width: 1
-                  - entity: sensor.mscv_0_opening_actual
-                    name: MSCV
-                    yaxis_id: mscv
-                    color: orange
-                    stroke_width: 2
-                  - entity: sensor.steam_gen_0_inlet
-                    name: STG INLET
-                    yaxis_id: balance
-                    color: green
-                    stroke_width: 3
-                  - entity: sensor.steam_gen_0_outlet
-                    name: STG OUTLET
-                    yaxis_id: balance
-                    color: red
-                    stroke_width: 3
-                  - entity: input_number.timestamp
-                    yaxis_id: time
-                    color: grey
-                    type: column
-                    show:
-                      in_header: false
-                      legend_value: false
-                grid_options:
-                  columns: full
-                experimental:
-                  disable_config_validation: true
-                apex_config:
-                  chart:
-                    height: 300px
-            grid_options:
-              columns: full
-            visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_0_opening_actual
-                above: 0
         column_span: 2
     badges:
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: false
+        entity: sensor.datetime
       - type: entity
         show_name: true
         show_state: true
@@ -554,11 +725,13 @@ views:
         show_icon: true
         entity: input_select.loop
     header:
-      card:
-        type: markdown
-        text_only: true
-        content: >-
-          Day: {{ states('sensor.time_day') }} - Time: {{ states('sensor.time')
-          }}
       layout: start
       badges_position: bottom
+    background:
+      opacity: 50
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+      image: /api/image/serve/7e0856a21cf3d5742602786f54341a6b/original
+    cards: []
