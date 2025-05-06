@@ -652,35 +652,35 @@
   unit_of_measurement: °C
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=MSCV_0_OPENING_ACTUAL
-  scan_interval: 200
+  scan_interval: 1
   name: MSCV_0_OPENING_ACTUAL
   unique_id: mscv_0_opening_actual
   unit_of_measurement: "%"
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=MSCV_1_OPENING_ACTUAL
-  scan_interval: 200
+  scan_interval: 1
   name: MSCV_1_OPENING_ACTUAL
   unique_id: mscv_1_opening_actual
   unit_of_measurement: "%"
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=MSCV_2_OPENING_ACTUAL
-  scan_interval: 2
+  scan_interval: 1
   name: MSCV_2_OPENING_ACTUAL
   unique_id: mscv_2_opening_actual
   unit_of_measurement: "%"
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=TURBINE_0_BYPASS_ACTUAL
-  scan_interval: 10
+  scan_interval: 1
   name: TURBINE_0_BYPASS_ACTUAL
   unique_id: turbine_0_bypass_actual
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=TURBINE_1_BYPASS_ACTUAL
-  scan_interval: 10
+  scan_interval: 1
   name: TURBINE_1_BYPASS_ACTUAL
   unique_id: turbine_1_bypass_actual
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=TURBINE_2_BYPASS_ACTUAL
-  scan_interval: 10
+  scan_interval: 1
   name: TURBINE_2_BYPASS_ACTUAL
   unique_id: turbine_2_bypass_actual
 - platform: rest
