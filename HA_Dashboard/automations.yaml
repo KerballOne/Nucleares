@@ -1,0 +1,163 @@
+- id: '1745383146738'
+  alias: Demand Following
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.power_demand_mw
+  - trigger: state
+    entity_id:
+    - number.total_power_output_mw
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.power_demand_mw
+    above: 0
+  - condition: numeric_state
+    entity_id: number.total_power_output_mw
+    above: 0
+  actions:
+  - if:
+    - condition: or
+      conditions:
+      - condition: numeric_state
+        entity_id: number.total_power_output_mw
+        below: sensor.demand_lowerlimit
+      - condition: numeric_state
+        entity_id: number.total_power_output_mw
+        above: sensor.demand_upperlimit
+      alias: Power Output not within Demand Limits
+    then:
+    - variables:
+        loop: '{{ states(''input_select.loop'')|string }}'
+    - alias: Is Demand Delta small or large
+      if:
+      - condition: numeric_state
+        entity_id: sensor.demand_delta
+        above: -4
+        below: 4
+      then:
+      - action: rest_command.nucleares_webserver_set
+        data:
+          var: COOLANT_CORE_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
+          val: '{{ max(states(''sensor.coolant_core_circulation_pump''+loop+''speed'')
+            | int + states(''sensor.demand_delta'') | int,8) }}'
+        alias: Adjust Primary Pump Speed
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: '{{ 10 / states(''sensor.game_sim_speed'') | int }}'
+          milliseconds: 0
+      else:
+      - variables:
+          target_mscv: '{{ max(min(states(''sensor.mscv''+loop+''opening_actual'')
+            | int + (states(''sensor.demand_delta'') | int / 4) | int,20),2) }}'
+      - alias: Match Primary Pump Speed to Target MSCV
+        action: rest_command.nucleares_webserver_set
+        data:
+          var: COOLANT_CORE_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
+          val: '{{ target_mscv | int * 2.5 }}'
+      - alias: Match Secondary Pump Speed to Target MSCV
+        action: rest_command.nucleares_webserver_set
+        data:
+          var: COOLANT_SEC_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
+          val: '{{ target_mscv | int * 10 / states(''number.sec_pump_2_efficiency'')
+            | int }}'
+      - alias: If MSCV not at Target, adjust MSCV +/- 1
+        if:
+        - condition: template
+          value_template: '{{ states(''sensor.mscv''+loop+''opening_actual'') | int
+            != target_mscv }}'
+          alias: Is MSCV not at Target?
+        then:
+        - action: rest_command.nucleares_webserver_set
+          data:
+            var: MSCV{{loop}}OPENING_ORDERED
+            val: '{{ states(''sensor.mscv''+loop+''opening_actual'') | int +  (states(''sensor.demand_delta'')
+              | int | abs) / (states(''sensor.demand_delta'') | int) }}'
+          alias: Adjust Main Steam Control Valve +/- 1
+      - action: persistent_notification.create
+        data:
+          message: '{{ states(''sensor.power_demand_mw'') }} MWe demanded, {{ states(''number.total_power_output_mw'')
+            }} MWe supplied, Delta = {{ states(''sensor.demand_delta'') }}<br>MSCV
+            = {{ target_mscv }}, Primary = {{ target_mscv | int * 2 }}, Secondary
+            = {{ target_mscv | int * 5 }}'
+        enabled: true
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: '{{ 5 / states(''sensor.game_sim_speed'') | int }}'
+          milliseconds: 0
+  mode: single
+- id: '1746027130216'
+  alias: Core Target Temp
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.core_state_criticality
+    - sensor.core_temperature
+    - sensor.rods_pos_actual
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+  conditions: []
+  actions:
+  - variables:
+      tgt_reactivity: '{{ min(((states(''input_number.target_core_temp'') | float
+        - states(''sensor.core_temperature'') | float)  / states(''input_number.target_core_temp'')
+        | float) | round(3) * 10 | float,2) }}'
+  - action: rest_command.nucleares_webserver_set
+    data:
+      var: RODS_ALL_POS_ORDERED
+      val: '{{ states(''sensor.rods_pos_actual'') | float + max(states(''sensor.core_state_criticality'')
+        | float - tgt_reactivity,-2) }}'
+    alias: Adjust Control Rods
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: '{{ (states(''sensor.core_temperature'') | int - states(''input_number.target_core_temp'')
+        | int) | abs / 10 / states(''sensor.game_sim_speed'') | int + 1 }}'
+      milliseconds: 0
+  mode: single
+- id: '1746249037975'
+  alias: Hourly Timestamp
+  description: ''
+  triggers:
+  - trigger: template
+    value_template: '{{ states(''sensor.time'').split(":")[1] | int == 0 }}'
+  conditions: []
+  actions:
+  - action: input_number.set_value
+    metadata: {}
+    data:
+      value: 10000
+    target:
+      entity_id:
+      - input_number.timestamp_ppm
+      - input_number.timestamp_temp
+      - input_number.timestamp_mw
+      - input_number.timestamp
+  - action: input_number.set_value
+    metadata: {}
+    data:
+      value: 100
+    target:
+      entity_id:
+      - input_number.timestamp_pct
+      - input_number.timestamp_react
+      - input_number.timestamp_concen
+  - action: input_number.set_value
+    metadata: {}
+    data:
+      value: 0
+    target:
+      entity_id:
+      - input_number.timestamp_ppm
+      - input_number.timestamp_temp
+      - input_number.timestamp_mw
+      - input_number.timestamp
+      - input_number.timestamp_pct
+      - input_number.timestamp_react
+      - input_number.timestamp_concen
+  mode: single

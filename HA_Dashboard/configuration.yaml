@@ -1,0 +1,56 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+sensor: !include sensors.yaml
+
+rest_command:
+  nucleares_webserver_set:
+    url: http://10.0.6.10:8785/?variable={{var}}&value={{val}}
+    method: POST
+
+panel_custom:
+  - name: logs
+    sidebar_title: Logs
+    sidebar_icon: mdi:post
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: "config/logs"
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator
+  - name: automations
+    sidebar_title: Automations
+    sidebar_icon: mdi:arrow-decision
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: "config/automation/dashboard"
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator
+  - name: server_control
+    sidebar_title: Server Control
+    sidebar_icon: mdi:cog-transfer
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: "developer-tools/yaml"
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator
+  - name: Helpers
+    sidebar_title: Helpers
+    sidebar_icon: mdi:handshake
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: "config/helpers"
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator
