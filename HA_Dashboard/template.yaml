@@ -1,0 +1,21 @@
+Day: {{ states('sensor.time_day') }} - Time: {{ states('sensor.time') }} {% if states('sensor.time').split(":")[1] | int == 0 %} test {%endif%}
+ 
+Rods:        {{ states('sensor.rods_pos_actual') | float }} 
+Reactivity:  {{ states('sensor.core_state_criticality') }}
+Core Temp:   {{ states('sensor.core_temperature') }}
+Target Temp: {{ states('input_number.target_core_temp') }}
+{% set tgt_reactivity = min(((states('input_number.target_core_temp') 
+  | float - states('sensor.core_temperature') | float) 
+    / states('input_number.target_core_temp') | float) 
+    | round(3) * 10 | float,2) %} 
+Target reactivity: {{ tgt_reactivity + 5 }}
+
+Move Rods: {{ max(states('sensor.core_state_criticality') 
+  | float - tgt_reactivity,-2) }} 
+Set Rods:  {{ states('sensor.rods_pos_actual') 
+  | float + max(states('sensor.core_state_criticality') 
+  | float - tgt_reactivity,-2) }}
+
+Wait: {{ (states('sensor.core_temperature') 
+  | int - states('input_number.target_core_temp') | int) 
+  | abs / 10 / states('sensor.game_sim_speed') | int + 1 }}

@@ -5,6 +5,27 @@
       {"created_at":"2025-05-06T15:11:16.033129+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"template","entry_id":"01JTK2DCJ1356JM862ZR7EY0ZV","minor_version":1,"modified_at":"2025-05-06T15:11:16.033130+00:00","options":{"name":"DateTime","state":"Day: {{ states('sensor.time_day') }} - Time: {{ states('sensor.time') }}","template_type":"sensor"},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"user","subentries":[],"title":"DateTime","unique_id":null,"version":1},
  {
   "version": 1,
+  "minor_version": 2,
+  "key": "input_select",
+  "data": {
+    "items": [
+      {
+        "id": "loop",
+        "name": "Loop",
+        "icon": "mdi:sync",
+        "options": [
+          "_0_",
+          "_1_",
+          "_2_"
+        ]
+      }
+    ]
+  }
+}
+
+
+{
+  "version": 1,
   "minor_version": 1,
   "key": "input_number",
   "data": {
@@ -30,53 +51,64 @@
         "unit_of_measurement": "none"
       },
       {
-        "id": "sec_pump_0_efficiency",
-        "min": 2.0,
-        "max": 10.0,
-        "name": "sec_pump_0_efficiency",
+        "id": "sec_pump_0_max",
+        "min": 20000.0,
+        "max": 90000.0,
+        "name": "sec_pump_0_max",
         "icon": "mdi:pump",
         "mode": "box",
-        "step": 0.01,
+        "step": 1000.0,
         "unit_of_measurement": "L/m"
       },
       {
-        "id": "sec_pump_1_efficiency",
-        "min": 2.0,
-        "max": 10.0,
-        "name": "sec_pump_1_efficiency",
+        "id": "sec_pump_1_max",
+        "min": 20000.0,
+        "max": 90000.0,
+        "name": "sec_pump_1_max",
         "icon": "mdi:pump",
-        "step": 0.01,
+        "step": 1000.0,
         "unit_of_measurement": "L/m",
         "mode": "box"
       },
       {
-        "id": "sec_pump_2_efficiency",
-        "min": 2.0,
-        "max": 10.0,
-        "name": "sec_pump_2_efficiency",
+        "id": "sec_pump_2_max",
+        "min": 20000.0,
+        "max": 90000.0,
+        "name": "sec_pump_2_max",
         "icon": "mdi:pump",
         "unit_of_measurement": "L/m",
         "mode": "box",
-        "step": 0.01
-      }
-    ]
-  }
-}
-{
-  "version": 1,
-  "minor_version": 2,
-  "key": "input_select",
-  "data": {
-    "items": [
+        "step": 1000.0
+      },
       {
-        "id": "loop",
-        "name": "Loop",
-        "icon": "mdi:sync",
-        "options": [
-          "_0_",
-          "_1_",
-          "_2_"
-        ]
+        "id": "pri_pump_0_max",
+        "min": 20000.0,
+        "max": 90000.0,
+        "icon": "mdi:pump",
+        "name": "pri_pump_0_max",
+        "step": 1000.0,
+        "unit_of_measurement": "L/m",
+        "mode": "box"
+      },
+      {
+        "id": "pri_pump_1_max",
+        "min": 20000.0,
+        "max": 90000.0,
+        "name": "pri_pump_1_max",
+        "icon": "mdi:pump",
+        "mode": "box",
+        "step": 1000.0,
+        "unit_of_measurement": "L/m"
+      },
+      {
+        "id": "pri_pump_2_max",
+        "min": 20000.0,
+        "max": 90000.0,
+        "icon": "mdi:pump",
+        "mode": "box",
+        "step": 1000.0,
+        "unit_of_measurement": "L/m",
+        "name": "pri_pump_2_max"
       }
     ]
   }

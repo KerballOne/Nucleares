@@ -1,0 +1,132 @@
+﻿Plant Startup, no chemicals
+1. ACTIVATE all terminals
+2. External power: ON
+3. Generators: MANUAL and STOP
+4. PZR thermostat: ON
+5. PZR heaters: ON
+6. Condenser vacuum: ON
+7. Resistor bank: ON
+- Verify Bypass set to 0
+- Verify MSCV set to 0
+-- Once Core Vessel Pressure ≥ 150bar --
+6. Operating mode: NOMINAL
+7: LOAD fuel
+8: Primary pump: ON; set to 15
+9. Condenser pump: ON; set to 1
+- Verify Condenser vacuum = 100 (optional: Condenser vacuum: OFF, if = 100)
+10. Control rods: SET to 93
+-- Once STG pressure ≥ 60 bar --
+11. MSCV: set to 5
+12. Secondary pump: ON; set to 25 (SLOW)
+13. Request STARTUP from city
+-- Once Turbine RPM ≥ 3050 RPM --
+14. Utilize Synchroscope; stop dot in middle top position at 3060 RPM
+-- Once dot is GREEN --
+- Verify SYNC = GREEN
+15. Circuit breaker: CLOSE
+16. Adjust primary pump, secondary pump, and MSCV as necessary
+17. External Power: OFF
+18. Backup Generators: AUTOMATIC
+
+------------------------------------------------
+ 
+Plant Startup, WITH chemicals
+1. ACTIVATE all terminals
+2. RCV: OPEN
+3. RCV: CLOSED (once Core Vessel Level = 2390)
+4. Boron Dosing Pump: 50
+5. External power: ON
+6. Generators: MANUAL and STOP
+7. PZR thermostat: ON
+8. PZR heaters: ON
+9. Condenser vacuum Pump: ON
+10. Resistor bank: ON
+11. Verify Bypass set to 0
+12. Verify MSCV set to 0
+-- Once Core Vessel Pressure ≥ 150bar --
+13. Operating mode: NOMINAL
+14: LOAD fuel
+15: Primary pump: ON; set to 15
+16. Condenser pump: ON; set to 1
+17. Verify condenser vacuum = 100  (optional: Condenser vacuum: OFF, if = 100)
+18. Control rods: SET to 90
+-- Once STG pressure ≥ 60bar --
+19. MSCV: Set to 5
+20. Secondary pump: ON; set to 25 (SLOW)
+21. Request STARTUP from city
+22. Monitor Core Temp; adjust rods as necessary
+23. Monitor Boron Concentration; stop dosing at 3110
+-- Once Turbine RPM ≥ 3050 RPM --
+24. Utilize Synchroscope; stop dot in middle top position at 3060 RPM
+-- Once dot is GREEN --
+- Verify "SYNC" GREEN
+25. Circuit breaker: CLOSE
+26. External Power: OFF
+27. Backup Generators: AUTOMATIC
+28. Adjust primary pump, secondary pump, and MSCV as necessary
+
+------------------------------------------------
+ 
+(New) Loop Startup
+(1. Open all loop valves)
+(2. Verify MSCV at 100)
+(3. Verify Bypass at 100)
+(4. Prime Primary circuit pump)
+(5. Prime Secondary circuit pump)
+6. Set MSCV to 0
+7. Set Bypass to 0
+8. Verify Resistor Bank(s) on
+9. Verify Core Vessel fill level
+10. Verify Condenser fill level
+11. Start loop as normal
+- Primary pump to 15
+- At 60 bar STG, MSCV to 5 and Secondary pump to 25
+- Connect turbine to grid via Synchroscope (at 3060 RPM)
+12. Adjust for demand
+
+===========================================
+
+Single Loop Shutdown (for maintenance)
+1. Select correct loop on Synchroscope
+2. Resistor bank: ON
+3. Circuit breaker: OPEN
+4. Set Bypass to 100
+5. MSCV: set to 100
+6. Primary coolant pump: set to 0 (optional: set to desired startup setting and turn switch off instead)
+7. Secondary coolant pump: set to 25
+- Monitor Condenser temperature
+--- Once STG temp ≤ 100 ---
+8. Secondary coolant pump: OFF (once at 46.5k, to reach 50k)(optional: set to desired startup setting first, or just set to 0 and do not turn switch off)
+
+------------------------------------------------
+
+Multiple Loop (and) Total Reactor Shutdown
+1. Request Maintenance Shutdown.
+-- At 1 hour before maintenance shutdown time from city --
+2. Operating Mode: SHUTDOWN
+3. External Power: ON
+4. Backup Generators: MANUAL
+5. Resistor Banks: ON
+6. Condenser: Set to 25
+-- For First Loop --
+7. Select Correct Synchroscope Loop
+8. Open Turbine Circuit
+9. Bypass: Set to 100
+10. MSCV: Set to 100
+11. Primary Pump: Set to 0
+12. Secondary Pump: Set to 25 (turn off when reaching desired STG fill level; 47k for 50k)
+(Repeat steps if using 2 of 3 loops)
+-- For Final Loop --
+(Request AO Maintenance Report)
+13. Control Rods: Set to 100
+14. Select Correct Synchroscope Loop
+15. Open Turbine Circuit
+16. Bypass: Set to 100
+17. MSCV: Set to 100
+18. Primary Pump: Set to 25
+19. Secondary Pump: Set to 25 (turn off when reaching desired STG fill level; 47k for 50k)
+-- Once core temp ≤ 50°C
+20. Primary Pump: Off
+21. Pressurizer Heater: Off
+22. Pressurizer Thermostat: Off
+23. Condenser Pump: Off

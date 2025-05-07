@@ -23,8 +23,8 @@ views:
                       labels:
                         style:
                           colors:
-                            - orange
-                            - yellow
+                            - red
+                            - magenta
                   - id: crit
                     opposite: true
                     min: -2
@@ -35,7 +35,7 @@ views:
                       labels:
                         style:
                           colors:
-                            - purple
+                            - orange
                   - id: rods
                     opposite: true
                     align_to: 10
@@ -45,27 +45,28 @@ views:
                       labels:
                         style:
                           colors:
-                            - cyan
+                            - green
                   - id: time
                     show: false
                 series:
                   - entity: sensor.core_temperature
                     yaxis_id: temp
-                    color: orange
+                    color: red
                     stroke_width: 3
                   - entity: input_number.target_core_temp
                     yaxis_id: temp
                     curve: stepline
-                    color: yellow
+                    color: magenta
                     stroke_dash: 1
                     stroke_width: 1
                   - entity: sensor.rods_pos_actual
                     yaxis_id: rods
-                    color: cyan
+                    color: green
                     stroke_width: 3
                   - entity: sensor.core_state_criticality
                     yaxis_id: crit
-                    color: purple
+                    decimals: 3
+                    color: orange
                     stroke_width: 3
                   - entity: input_number.timestamp
                     yaxis_id: time
@@ -108,7 +109,7 @@ views:
                       labels:
                         style:
                           colors:
-                            - red
+                            - yellow
                             - blue
                   - id: concentration
                     opposite: true
@@ -127,22 +128,24 @@ views:
                   - entity: sensor.core_xenon_generation
                     name: Xenon Reactivity
                     yaxis_id: generation
-                    color: red
+                    color: blue
                     stroke_width: 2
                   - entity: sensor.core_iodine_generation
                     name: Iodine Reactivity
                     yaxis_id: generation
-                    color: blue
+                    color: yellow
                     stroke_width: 2
                   - entity: sensor.core_xenon_cumulative
                     name: Xenon Concentration
                     yaxis_id: concentration
-                    color: orange
+                    color: blue
+                    stroke_dash: 4
                     stroke_width: 2
                   - entity: sensor.core_iodine_cumulative
                     name: Iodine Concentration
                     yaxis_id: concentration
-                    color: cyan
+                    color: yellow
+                    stroke_dash: 4
                     stroke_width: 2
                   - entity: input_number.timestamp
                     yaxis_id: time
@@ -202,11 +205,13 @@ views:
                   - entity: sensor.chem_boron_dosage_actual
                     name: Boron Dosing
                     yaxis_id: pumps
+                    curve: stepline
                     color: green
                     stroke_width: 2
                   - entity: sensor.chem_boron_filter_actual
                     name: Boron Filtering
                     yaxis_id: pumps
+                    curve: stepline
                     color: red
                     stroke_width: 2
                   - entity: input_number.timestamp
@@ -255,12 +260,12 @@ views:
                   - entity: sensor.coolant_core_circulation_pump_0_speed
                     name: Primary
                     yaxis_id: pump
-                    color: yellow
+                    color: Salmon
                     stroke_width: 3
                   - entity: sensor.coolant_sec_circulation_pump_0_speed
                     name: Secondary
                     yaxis_id: pump
-                    color: blue
+                    color: Aquamarine
                     stroke_width: 3
                   - entity: input_number.timestamp
                     yaxis_id: time
@@ -279,9 +284,14 @@ views:
             grid_options:
               columns: full
             visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_0_opening_actual
-                above: 0
+              - condition: or
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.coolant_sec_circulation_pump_0_speed
+                    above: 0
+                  - condition: numeric_state
+                    entity: sensor.coolant_core_circulation_pump_0_speed
+                    above: 0
           - type: horizontal-stack
             cards:
               - type: custom:apexcharts-card
@@ -309,12 +319,12 @@ views:
                   - entity: sensor.coolant_core_circulation_pump_1_speed
                     name: Primary
                     yaxis_id: pump
-                    color: yellow
+                    color: Salmon
                     stroke_width: 3
                   - entity: sensor.coolant_sec_circulation_pump_1_speed
                     name: Secondary
                     yaxis_id: pump
-                    color: blue
+                    color: Aquamarine
                     stroke_width: 3
                   - entity: input_number.timestamp
                     yaxis_id: time
@@ -333,9 +343,14 @@ views:
             grid_options:
               columns: full
             visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_1_opening_actual
-                above: 0
+              - condition: or
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.coolant_sec_circulation_pump_1_speed
+                    above: 0
+                  - condition: numeric_state
+                    entity: sensor.coolant_core_circulation_pump_1_speed
+                    above: 0
           - type: horizontal-stack
             cards:
               - type: custom:apexcharts-card
@@ -363,12 +378,12 @@ views:
                   - entity: sensor.coolant_core_circulation_pump_2_speed
                     name: Primary
                     yaxis_id: pump
-                    color: yellow
+                    color: Salmon
                     stroke_width: 3
                   - entity: sensor.coolant_sec_circulation_pump_2_speed
                     name: Secondary
                     yaxis_id: pump
-                    color: blue
+                    color: Aquamarine
                     stroke_width: 3
                   - entity: input_number.timestamp
                     yaxis_id: time
@@ -387,9 +402,14 @@ views:
             grid_options:
               columns: full
             visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_2_opening_actual
-                above: 0
+              - condition: or
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.coolant_sec_circulation_pump_2_speed
+                    above: 0
+                  - condition: numeric_state
+                    entity: sensor.coolant_core_circulation_pump_2_speed
+                    above: 0
       - type: grid
         cards:
           - type: horizontal-stack
@@ -462,9 +482,14 @@ views:
             grid_options:
               columns: full
             visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_0_opening_actual
-                above: 0
+              - condition: or
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.steam_gen_0_inlet
+                    above: 0
+                  - condition: numeric_state
+                    entity: sensor.steam_gen_0_outlet
+                    above: 0
           - type: horizontal-stack
             cards:
               - type: custom:apexcharts-card
@@ -535,9 +560,14 @@ views:
             grid_options:
               columns: full
             visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_1_opening_actual
-                above: 0
+              - condition: or
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.steam_gen_1_inlet
+                    above: 0
+                  - condition: numeric_state
+                    entity: sensor.steam_gen_1_outlet
+                    above: 0
           - type: horizontal-stack
             cards:
               - type: custom:apexcharts-card
@@ -608,9 +638,14 @@ views:
             grid_options:
               columns: full
             visibility:
-              - condition: numeric_state
-                entity: sensor.mscv_2_opening_actual
-                above: 0
+              - condition: or
+                conditions:
+                  - condition: numeric_state
+                    entity: sensor.steam_gen_2_inlet
+                    above: 0
+                  - condition: numeric_state
+                    entity: sensor.steam_gen_2_outlet
+                    above: 0
         column_span: 1
       - type: grid
         cards:
@@ -644,9 +679,9 @@ views:
                     name: Demand
                     curve: stepline
                     yaxis_id: power
-                    color: yellow
-                    opacity: 0.5
-                    stroke_width: 20
+                    color: magenta
+                    opacity: 0.15
+                    stroke_width: 50
                     stroke_dash: 4
                   - entity: number.total_power_output_mw
                     name: Output
@@ -662,7 +697,7 @@ views:
                     name: lower limit
                     curve: stepline
                     yaxis_id: power
-                    color: grey
+                    color: magenta
                     stroke_width: 1
                     show:
                       in_header: false
@@ -670,7 +705,7 @@ views:
                     name: upper limit
                     curve: stepline
                     yaxis_id: power
-                    color: grey
+                    color: yellow
                     stroke_width: 1
                     show:
                       in_header: false
@@ -697,6 +732,14 @@ views:
         show_state: true
         show_icon: false
         entity: sensor.datetime
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: false
+        entity: sensor.game_sim_speed
+        state_content:
+          - last_changed
+          - state
       - type: entity
         show_name: true
         show_state: true

@@ -40,7 +40,7 @@
         data:
           var: COOLANT_CORE_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
           val: '{{ max(states(''sensor.coolant_core_circulation_pump''+loop+''speed'')
-            | int + states(''sensor.demand_delta'') | int,8) }}'
+            | int + states(''sensor.demand_delta'') | int,6) }}'
         alias: Adjust Primary Pump Speed
       - delay:
           hours: 0
@@ -55,13 +55,14 @@
         action: rest_command.nucleares_webserver_set
         data:
           var: COOLANT_CORE_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
-          val: '{{ target_mscv | int * 2.5 }}'
+          val: '{{ (target_mscv | int * 50000 / states(''input_number.pri_pump''+loop+''max'')
+            | int) | int  }}'
       - alias: Match Secondary Pump Speed to Target MSCV
         action: rest_command.nucleares_webserver_set
         data:
           var: COOLANT_SEC_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
-          val: '{{ target_mscv | int * 10 / states(''input_number.sec_pump''+loop+''efficiency'')
-            | int }}'
+          val: '{{ (target_mscv | int * 100000 / states(''input_number.sec_pump''+loop+''max'')
+            | int) | int  }}'
       - alias: If MSCV not at Target, adjust MSCV +/- 1
         if:
         - condition: template
@@ -79,8 +80,9 @@
         data:
           message: '{{ states(''sensor.power_demand_mw'') }} MWe demanded, {{ states(''number.total_power_output_mw'')
             }} MWe supplied, Delta = {{ states(''sensor.demand_delta'') }}<br>MSCV
-            = {{ target_mscv }}, Primary = {{ target_mscv | int * 2 }}, Secondary
-            = {{ target_mscv | int * 5 }}'
+            = {{ target_mscv }}, Primary = {{ (target_mscv | int * 50000 / states(''input_number.pri_pump''+loop+''max'')
+            | int) | int }}, Secondary = {{ (target_mscv | int * 100000 / states(''input_number.sec_pump''+loop+''max'')
+            | int) | int }}'
         enabled: true
       - delay:
           hours: 0
