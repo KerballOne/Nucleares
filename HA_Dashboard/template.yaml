@@ -1,5 +1,5 @@
 Day: {{ states('sensor.time_day') }} - Time: {{ states('sensor.time') }} {% if states('sensor.time').split(":")[1] | int == 0 %} test {%endif%}
- 
+
 Rods:        {{ states('sensor.rods_pos_actual') | float }} 
 Reactivity:  {{ states('sensor.core_state_criticality') }}
 Core Temp:   {{ states('sensor.core_temperature') }}
@@ -15,7 +15,17 @@ Move Rods: {{ max(states('sensor.core_state_criticality')
 Set Rods:  {{ states('sensor.rods_pos_actual') 
   | float + max(states('sensor.core_state_criticality') 
   | float - tgt_reactivity,-2) }}
-
 Wait: {{ (states('sensor.core_temperature') 
   | int - states('input_number.target_core_temp') | int) 
   | abs / 10 / states('sensor.game_sim_speed') | int + 1 }}
+ 
+Demand Delta: {{ states('sensor.demand_delta') | round(2) }} MW
+{% set loop = '_1_' %}
+Primary =   {{ states('sensor.COOLANT_CORE_CIRCULATION_PUMP'+loop+'SPEED') | int }}% -> {{ states('sensor.COOLANT_CORE_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 * states('sensor.coolant_core_circulation_pump'+loop+'capacity') | int }} L/m of {{ states('sensor.coolant_core_circulation_pump'+loop+'capacity') | int }} L/m
+Secondary = {{ states('sensor.COOLANT_SEC_CIRCULATION_PUMP'+loop+'SPEED') | int }}% -> {{ states('sensor.COOLANT_SEC_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 * states('sensor.coolant_sec_circulation_pump'+loop+'capacity') | int }} L/m of {{ states('sensor.coolant_sec_circulation_pump'+loop+'capacity') | int }} L/m
+MSCV =      {{ states('sensor.mscv'+loop+'opening_actual') }}%     {{ states('sensor.mscv'+loop+'opening_actual') | int * 100 }} L/m
+{% set flow_ratio =  (states('sensor.COOLANT_SEC_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 *
+    states('sensor.coolant_sec_circulation_pump'+loop+'capacity') | int) /
+    (states('sensor.COOLANT_CORE_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 *
+    states('sensor.coolant_core_circulation_pump'+loop+'capacity') | int) %}
+Flow Ratio = {{ flow_ratio | round(3) }} 
