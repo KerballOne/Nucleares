@@ -700,16 +700,19 @@
   scan_interval: 1
   name: STEAM_GEN_0_EVAPORATED
   unique_id: steam_gen_0_evaporated
+  unit_of_measurement: L/min
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=STEAM_GEN_1_EVAPORATED
   scan_interval: 1
   name: STEAM_GEN_1_EVAPORATED
   unique_id: steam_gen_1_evaporated
+  unit_of_measurement: L/min
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=STEAM_GEN_2_EVAPORATED
   scan_interval: 1
   name: STEAM_GEN_2_EVAPORATED
   unique_id: steam_gen_2_evaporated
+  unit_of_measurement: L/min
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=STEAM_GEN_0_INLET
   scan_interval: 1
@@ -727,6 +730,24 @@
   scan_interval: 1
   name: STEAM_GEN_2_INLET
   unique_id: steam_gen_2_inlet
+  unit_of_measurement: L/min
+- platform: rest
+  resource: http://10.0.6.10:8785/?variable=STEAM_GEN_0_CONDENSED
+  scan_interval: 1
+  name: STEAM_GEN_0_CONDENSED
+  unique_id: STEAM_GEN_0_CONDENSED
+  unit_of_measurement: L/min
+- platform: rest
+  resource: http://10.0.6.10:8785/?variable=STEAM_GEN_1_CONDENSED
+  scan_interval: 1
+  name: STEAM_GEN_1_CONDENSED
+  unique_id: STEAM_GEN_1_CONDENSED
+  unit_of_measurement: L/min
+- platform: rest
+  resource: http://10.0.6.10:8785/?variable=STEAM_GEN_2_CONDENSED
+  scan_interval: 1
+  name: STEAM_GEN_2_CONDENSED
+  unique_id: STEAM_GEN_2_CONDENSED
   unit_of_measurement: L/min
 - platform: rest
   resource: http://10.0.6.10:8785/?variable=POWER_DEMAND_MW

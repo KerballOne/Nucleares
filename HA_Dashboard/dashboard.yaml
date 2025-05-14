@@ -1,5 +1,5 @@
 views:
-  - title: Home
+  - title: NUCLEARES
     sections:
       - type: grid
         cards:
@@ -272,7 +272,7 @@ views:
                     stroke_width: 3
                   - entity: number.loop0_flowratio
                     name: Ratio
-                    float_precision: 5
+                    float_precision: 2
                     yaxis_id: pump
                     color: white
                     stroke_width: 0
@@ -337,7 +337,7 @@ views:
                     stroke_width: 3
                   - entity: number.loop1_flowratio
                     name: Ratio
-                    float_precision: 5
+                    float_precision: 2
                     yaxis_id: pump
                     color: white
                     stroke_width: 0
@@ -402,7 +402,7 @@ views:
                     stroke_width: 3
                   - entity: number.loop2_flowratio
                     name: Ratio
-                    float_precision: 5
+                    float_precision: 2
                     yaxis_id: pump
                     color: white
                     stroke_width: 0
@@ -453,7 +453,7 @@ views:
                       labels:
                         style:
                           colors:
-                            - cyan
+                            - pink
                   - id: balance
                     opposite: true
                     align_to: 10
@@ -463,8 +463,10 @@ views:
                       labels:
                         style:
                           colors:
-                            - green
+                            - lightgreen
                             - red
+                  - id: none
+                    show: false
                   - id: time
                     show: false
                 series:
@@ -472,20 +474,29 @@ views:
                     name: MSCV
                     yaxis_id: mscv
                     curve: stepline
-                    color: cyan
+                    color: pink
                     stroke_width: 3
                   - entity: sensor.steam_gen_0_inlet
                     name: STG INLET
                     yaxis_id: balance
-                    color: green
+                    color: lightgreen
                     opacity: 0.6
                     stroke_width: 4
                   - entity: sensor.steam_gen_0_outlet
                     name: STG OUTLET
+                    unit: kg/m
                     yaxis_id: balance
                     color: red
                     opacity: 0.6
                     stroke_width: 4
+                  - entity: sensor.generator_0_kw
+                    name: Power Output
+                    transform: return x / 1000;
+                    unit: MW
+                    yaxis_id: none
+                    color: orange
+                    opacity: 0.2
+                    stroke_width: 0
                   - entity: input_number.timestamp
                     yaxis_id: time
                     color: grey
@@ -531,7 +542,7 @@ views:
                       labels:
                         style:
                           colors:
-                            - cyan
+                            - pink
                   - id: balance
                     opposite: true
                     align_to: 10
@@ -541,8 +552,10 @@ views:
                       labels:
                         style:
                           colors:
-                            - green
+                            - lightgreen
                             - red
+                  - id: none
+                    show: false
                   - id: time
                     show: false
                 series:
@@ -550,20 +563,29 @@ views:
                     name: MSCV
                     yaxis_id: mscv
                     curve: stepline
-                    color: cyan
+                    color: pink
                     stroke_width: 3
                   - entity: sensor.steam_gen_1_inlet
                     name: STG INLET
                     yaxis_id: balance
-                    color: green
+                    color: lightgreen
                     opacity: 0.6
                     stroke_width: 4
                   - entity: sensor.steam_gen_1_outlet
                     name: STG OUTLET
+                    unit: kg/m
                     yaxis_id: balance
                     color: red
                     opacity: 0.6
                     stroke_width: 4
+                  - entity: sensor.generator_1_kw
+                    name: Power Output
+                    transform: return x / 1000;
+                    unit: MW
+                    yaxis_id: none
+                    color: orange
+                    opacity: 0.2
+                    stroke_width: 0
                   - entity: input_number.timestamp
                     yaxis_id: time
                     color: grey
@@ -609,7 +631,7 @@ views:
                       labels:
                         style:
                           colors:
-                            - cyan
+                            - pink
                   - id: balance
                     opposite: true
                     align_to: 10
@@ -619,8 +641,10 @@ views:
                       labels:
                         style:
                           colors:
-                            - green
+                            - lightgreen
                             - red
+                  - id: none
+                    show: false
                   - id: time
                     show: false
                 series:
@@ -628,20 +652,29 @@ views:
                     name: MSCV
                     yaxis_id: mscv
                     curve: stepline
-                    color: cyan
+                    color: pink
                     stroke_width: 3
                   - entity: sensor.steam_gen_2_inlet
                     name: STG INLET
                     yaxis_id: balance
-                    color: green
+                    color: lightgreen
                     opacity: 0.6
                     stroke_width: 4
                   - entity: sensor.steam_gen_2_outlet
                     name: STG OUTLET
+                    unit: kg/m
                     yaxis_id: balance
                     color: red
                     opacity: 0.6
                     stroke_width: 4
+                  - entity: sensor.generator_2_kw
+                    name: Power Output
+                    transform: return x / 1000;
+                    unit: MW
+                    yaxis_id: none
+                    color: orange
+                    opacity: 0.2
+                    stroke_width: 0
                   - entity: input_number.timestamp
                     yaxis_id: time
                     color: grey
@@ -683,7 +716,7 @@ views:
                 yaxis:
                   - id: power
                     opposite: true
-                    align_to: 1
+                    align_to: 4
                     decimals: 0
                     apex_config:
                       tickAmount: 5
@@ -715,7 +748,7 @@ views:
                     color: cyan
                     stroke_width: 0
                   - entity: sensor.demand_lowerlimit
-                    name: lower limit
+                    name: lower
                     curve: stepline
                     yaxis_id: power
                     color: magenta
@@ -723,13 +756,46 @@ views:
                     show:
                       in_header: false
                   - entity: sensor.demand_upperlimit
-                    name: upper limit
+                    name: upper
                     curve: stepline
                     yaxis_id: power
                     color: magenta
                     stroke_width: 1
                     show:
                       in_header: false
+                  - entity: sensor.generator_0_kw
+                    name: A
+                    transform: return x / 1000;
+                    yaxis_id: power
+                    color: orange
+                    opacity: 0.6
+                    stroke_width: 1
+                    unit: MW
+                    show:
+                      in_header: false
+                      legend_value: true
+                  - entity: sensor.generator_1_kw
+                    name: B
+                    transform: return x / 1000;
+                    yaxis_id: power
+                    color: orange
+                    opacity: 0.6
+                    stroke_width: 1
+                    unit: MW
+                    show:
+                      in_header: false
+                      legend_value: true
+                  - entity: sensor.generator_2_kw
+                    name: C
+                    transform: return x / 1000;
+                    yaxis_id: power
+                    color: orange
+                    opacity: 0.6
+                    stroke_width: 1
+                    unit: MW
+                    show:
+                      in_header: false
+                      legend_value: true
                   - entity: input_number.timestamp
                     yaxis_id: time
                     color: grey
@@ -799,3 +865,6 @@ views:
       attachment: fixed
       image: /api/image/serve/7e0856a21cf3d5742602786f54341a6b/original
     cards: []
+    type: sections
+    max_columns: 4
+    icon: mdi:radioactive

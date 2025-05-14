@@ -20,12 +20,26 @@ Wait: {{ (states('sensor.core_temperature')
   | abs / 10 / states('sensor.game_sim_speed') | int + 1 }}
  
 Demand Delta: {{ states('sensor.demand_delta') | round(2) }} MW
-{% set loop = '_1_' %}
+{% set loop = states('input_select.loop')|string %}
 Primary =   {{ states('sensor.COOLANT_CORE_CIRCULATION_PUMP'+loop+'SPEED') | int }}% -> {{ states('sensor.COOLANT_CORE_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 * states('sensor.coolant_core_circulation_pump'+loop+'capacity') | int }} L/m of {{ states('sensor.coolant_core_circulation_pump'+loop+'capacity') | int }} L/m
 Secondary = {{ states('sensor.COOLANT_SEC_CIRCULATION_PUMP'+loop+'SPEED') | int }}% -> {{ states('sensor.COOLANT_SEC_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 * states('sensor.coolant_sec_circulation_pump'+loop+'capacity') | int }} L/m of {{ states('sensor.coolant_sec_circulation_pump'+loop+'capacity') | int }} L/m
-MSCV =      {{ states('sensor.mscv'+loop+'opening_actual') }}%     {{ states('sensor.mscv'+loop+'opening_actual') | int * 100 }} L/m
+COOLANT_INLET:     {{ states('sensor.STEAM_GEN'+loop+'INLET') |int }} L/m
+COOLANT_CONDENSED: {{ states('sensor.steam_gen'+loop+'condensed') |int }} L/m
+
+MSCV =      {{ states('sensor.mscv'+loop+'opening_actual') }}%     {{ states('sensor.mscv'+loop+'opening_actual') | int * 100 }}
 {% set flow_ratio =  (states('sensor.COOLANT_SEC_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 *
     states('sensor.coolant_sec_circulation_pump'+loop+'capacity') | int) /
     (states('sensor.COOLANT_CORE_CIRCULATION_PUMP'+loop+'SPEED') | int / 100 *
     states('sensor.coolant_core_circulation_pump'+loop+'capacity') | int) %}
 Flow Ratio = {{ flow_ratio | round(3) }} 
+
+
+EVAP ==   {{ states('sensor.steam_gen_1_evaporated') | int }} L/m    {{ states('sensor.steam_gen_2_evaporated') |int }} L/m
+RCF  ==   {{ states('sensor.rf_c_loop_b') }} L/m    {{ states('sensor.rf_c_loop_c') }} L/m
+BAL ==    {{ (states('sensor.steam_gen_1_evaporated') | float - states('sensor.rf_c_loop_b') | float) | round(2) }} L/m       {{ (states('sensor.steam_gen_2_evaporated') | float - states('sensor.rf_c_loop_c') | float) | round(2) }} L/m
+
+
+
+
+
+##}

@@ -43,8 +43,8 @@
       - alias: Sec/Pri Flow Ratio is within bounds
         condition: template
         value_template: "{{ (states('sensor.demand_delta') | int > 0 and flow_ratio
-          >= 2.5) or \n(states('sensor.demand_delta') | int < 0 and flow_ratio <=
-          3.0) }}"
+          >= 3.0) or \n(states('sensor.demand_delta') | int < 0 and flow_ratio <=
+          4.0) }}"
         enabled: true
       then:
       - action: rest_command.nucleares_webserver_set
@@ -87,13 +87,13 @@
         action: rest_command.nucleares_webserver_set
         data:
           var: COOLANT_SEC_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
-          val: '{{ (target_mscv | int * 10000 / states(''sensor.coolant_sec_circulation_pump''+loop+''capacity'')
+          val: '{{ (target_mscv | int * 1000 / states(''sensor.coolant_sec_circulation_pump''+loop+''capacity'')
             | int) | round(1)  }}'
       - alias: Match Primary Pump Speed to Target MSCV
         action: rest_command.nucleares_webserver_set
         data:
           var: COOLANT_CORE_CIRCULATION_PUMP{{loop}}ORDERED_SPEED
-          val: '{{ (target_mscv | int * 4000 / states(''sensor.coolant_core_circulation_pump''+loop+''capacity'')
+          val: '{{ (target_mscv | int * 300 / states(''sensor.coolant_core_circulation_pump''+loop+''capacity'')
             | int) | round(1)  }}'
       - alias: If MSCV not at Target, adjust MSCV +/- 1
         if:
@@ -113,9 +113,9 @@
           message: "Demand: {{ states('sensor.power_demand_mw') }} <br> Output: {{
             states('number.total_power_output_mw') }} <br> Delta = {{ states('sensor.demand_delta')
             | round(2) }} <br><br> Loop: {{loop}} ==> STEAM VALVE adjustment  <br>MSCV
-            = {{ target_mscv }} <br> New Primary = {{\n (target_mscv | int * 5000
-            / states('sensor.coolant_core_circulation_pump'+loop+'capacity') |\nint)
-            | int }} <br> New Secondary = {{ (target_mscv | int * 10000 / states('sensor.coolant_sec_circulation_pump'+loop+'capacity')
+            = {{ target_mscv }} <br> New Primary = {{\n (target_mscv | int * 300 /
+            states('sensor.coolant_core_circulation_pump'+loop+'capacity') |\nint)
+            | int }} <br> New Secondary = {{ (target_mscv | int * 1000 / states('sensor.coolant_sec_circulation_pump'+loop+'capacity')
             | int) | int }}<br> Ratio:{{flow_ratio | round(4)}}"
         enabled: true
         alias: NOTIFICATION

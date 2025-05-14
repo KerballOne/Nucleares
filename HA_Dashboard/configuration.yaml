@@ -1,6 +1,6 @@
 
 # Loads default set of integrations. Do not remove.
-default_config:
+#default_config:
 
 # Load frontend themes from the themes folder
 frontend:
@@ -12,6 +12,8 @@ scene: !include scenes.yaml
 
 sensor: !include sensors.yaml
 
+history:
+  
 rest_command:
   nucleares_webserver_set:
     url: http://10.0.6.10:8785/?variable={{var}}&value={{val}}
@@ -32,6 +34,15 @@ panel_custom:
     sidebar_icon: mdi:arrow-decision
     js_url: /api/hassio/app/entrypoint.js
     url_path: "config/automation/dashboard"
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator
+  - name: integrations
+    sidebar_title: Integrations
+    sidebar_icon: mdi:chip
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: "config/integrations/dashboard"
     embed_iframe: true
     require_admin: true
     config:
