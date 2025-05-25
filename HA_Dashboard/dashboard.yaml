@@ -49,7 +49,7 @@ views:
                   - id: time
                     show: false
                 series:
-                  - entity: sensor.core_temperature
+                  - entity: sensor.core_temp
                     yaxis_id: temp
                     color: red
                     stroke_width: 3
@@ -128,27 +128,27 @@ views:
                     show: false
                 series:
                   - entity: sensor.core_xenon_generation
-                    name: Xenon Reactivity
+                    name: Xenon Reactivity - -
                     yaxis_id: generation
                     color: blue
-                    stroke_width: 4
+                    stroke_width: 3
+                    stroke_dash: 4
                   - entity: sensor.core_iodine_generation
-                    name: Iodine Reactivity
+                    name: Iodine Reactivity - -
                     yaxis_id: generation
                     float_precision: 4
                     color: yellow
-                    stroke_width: 4
+                    stroke_width: 2
+                    stroke_dash: 4
                   - entity: sensor.core_xenon_cumulative
-                    name: Xenon Concentration
+                    name: Xenon Concentration __
                     yaxis_id: concentration
                     color: blue
-                    stroke_dash: 4
-                    stroke_width: 2
+                    stroke_width: 3
                   - entity: sensor.core_iodine_cumulative
-                    name: Iodine Concentration
+                    name: Iodine Concentration __
                     yaxis_id: concentration
                     color: yellow
-                    stroke_dash: 4
                     stroke_width: 2
                   - entity: input_number.timestamp
                     yaxis_id: time
@@ -270,7 +270,7 @@ views:
                     yaxis_id: pump
                     color: Aquamarine
                     stroke_width: 3
-                  - entity: number.loop0_flowratio
+                  - entity: sensor.loop0_flowratio
                     name: Ratio
                     float_precision: 2
                     yaxis_id: pump
@@ -335,7 +335,7 @@ views:
                     yaxis_id: pump
                     color: Aquamarine
                     stroke_width: 3
-                  - entity: number.loop1_flowratio
+                  - entity: sensor.loop1_flowratio
                     name: Ratio
                     float_precision: 2
                     yaxis_id: pump
@@ -400,7 +400,7 @@ views:
                     yaxis_id: pump
                     color: Aquamarine
                     stroke_width: 3
-                  - entity: number.loop2_flowratio
+                  - entity: sensor.loop2_flowratio
                     name: Ratio
                     float_precision: 2
                     yaxis_id: pump
@@ -454,7 +454,7 @@ views:
                         style:
                           colors:
                             - pink
-                  - id: balance
+                  - id: balance1
                     opposite: true
                     align_to: 10
                     decimals: 0
@@ -465,6 +465,18 @@ views:
                           colors:
                             - lightgreen
                             - red
+                  - id: balance2
+                    show: false
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightblue
+                            - white
                   - id: none
                     show: false
                   - id: time
@@ -478,17 +490,36 @@ views:
                     stroke_width: 3
                   - entity: sensor.steam_gen_0_inlet
                     name: STG INLET
-                    yaxis_id: balance
+                    yaxis_id: balance1
                     color: lightgreen
                     opacity: 0.6
                     stroke_width: 4
                   - entity: sensor.steam_gen_0_outlet
                     name: STG OUTLET
                     unit: kg/m
-                    yaxis_id: balance
+                    yaxis_id: balance1
                     color: red
                     opacity: 0.6
                     stroke_width: 4
+                  - entity: sensor.steam_gen_0_return_flow_plus_condensed
+                    name: STG RFC
+                    yaxis_id: balance2
+                    color: lightblue
+                    opacity: 0.99
+                    stroke_width: 1
+                    show:
+                      in_header: false
+                      legend_value: false
+                  - entity: sensor.steam_gen_0_evaporated
+                    name: STG EVAP
+                    unit: kg/m
+                    yaxis_id: balance2
+                    color: white
+                    opacity: 0.2
+                    stroke_width: 1
+                    show:
+                      in_header: false
+                      legend_value: false
                   - entity: sensor.generator_0_kw
                     name: Power Output
                     transform: return x / 1000;
@@ -543,7 +574,7 @@ views:
                         style:
                           colors:
                             - pink
-                  - id: balance
+                  - id: balance1
                     opposite: true
                     align_to: 10
                     decimals: 0
@@ -554,6 +585,18 @@ views:
                           colors:
                             - lightgreen
                             - red
+                  - id: balance2
+                    show: false
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightblue
+                            - white
                   - id: none
                     show: false
                   - id: time
@@ -564,20 +607,39 @@ views:
                     yaxis_id: mscv
                     curve: stepline
                     color: pink
-                    stroke_width: 3
+                    stroke_width: 5
                   - entity: sensor.steam_gen_1_inlet
                     name: STG INLET
-                    yaxis_id: balance
+                    yaxis_id: balance1
                     color: lightgreen
                     opacity: 0.6
-                    stroke_width: 4
+                    stroke_width: 1
                   - entity: sensor.steam_gen_1_outlet
                     name: STG OUTLET
                     unit: kg/m
-                    yaxis_id: balance
+                    yaxis_id: balance1
                     color: red
                     opacity: 0.6
-                    stroke_width: 4
+                    stroke_width: 1
+                  - entity: sensor.steam_gen_1_return_flow_plus_condensed
+                    name: STG RFC
+                    yaxis_id: balance2
+                    color: lightblue
+                    opacity: 0.99
+                    stroke_width: 1
+                    show:
+                      in_header: false
+                      legend_value: false
+                  - entity: sensor.steam_gen_1_evaporated
+                    name: STG EVAP
+                    unit: kg/m
+                    yaxis_id: balance2
+                    color: white
+                    opacity: 0.2
+                    stroke_width: 1
+                    show:
+                      in_header: false
+                      legend_value: false
                   - entity: sensor.generator_1_kw
                     name: Power Output
                     transform: return x / 1000;
@@ -632,7 +694,7 @@ views:
                         style:
                           colors:
                             - pink
-                  - id: balance
+                  - id: balance1
                     opposite: true
                     align_to: 10
                     decimals: 0
@@ -643,6 +705,18 @@ views:
                           colors:
                             - lightgreen
                             - red
+                  - id: balance2
+                    show: false
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightblue
+                            - white
                   - id: none
                     show: false
                   - id: time
@@ -656,17 +730,36 @@ views:
                     stroke_width: 3
                   - entity: sensor.steam_gen_2_inlet
                     name: STG INLET
-                    yaxis_id: balance
+                    yaxis_id: balance1
                     color: lightgreen
                     opacity: 0.6
                     stroke_width: 4
                   - entity: sensor.steam_gen_2_outlet
                     name: STG OUTLET
                     unit: kg/m
-                    yaxis_id: balance
+                    yaxis_id: balance1
                     color: red
                     opacity: 0.6
                     stroke_width: 4
+                  - entity: sensor.steam_gen_2_return_flow_plus_condensed
+                    name: STG RFC
+                    yaxis_id: balance2
+                    color: lightblue
+                    opacity: 0.99
+                    stroke_width: 1
+                    show:
+                      in_header: false
+                      legend_value: false
+                  - entity: sensor.steam_gen_2_evaporated
+                    name: STG EVAP
+                    unit: kg/m
+                    yaxis_id: balance2
+                    color: white
+                    opacity: 0.2
+                    stroke_width: 1
+                    show:
+                      in_header: false
+                      legend_value: false
                   - entity: sensor.generator_2_kw
                     name: Power Output
                     transform: return x / 1000;
@@ -737,7 +830,7 @@ views:
                     opacity: 0.15
                     stroke_width: 50
                     stroke_dash: 4
-                  - entity: number.total_power_output_mw
+                  - entity: sensor.total_power_output_mw
                     name: Output
                     yaxis_id: power
                     color: green
@@ -810,6 +903,66 @@ views:
                 apex_config:
                   chart:
                     height: 400px
+            grid_options:
+              columns: full
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Condenser
+                  show_states: true
+                  colorize_states: true
+                graph_span: 1h
+                yaxis:
+                  - id: pumps
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - green
+                  - id: temps
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - red
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.condenser_circulation_pump_speed
+                    name: Condenser Pump
+                    yaxis_id: pumps
+                    curve: stepline
+                    color: green
+                    stroke_width: 2
+                  - entity: sensor.condenser_temperature
+                    name: Condenser Temp
+                    yaxis_id: temps
+                    curve: stepline
+                    color: red
+                    stroke_width: 2
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 250px
             grid_options:
               columns: full
         column_span: 2

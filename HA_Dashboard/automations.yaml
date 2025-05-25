@@ -7,13 +7,13 @@
     - sensor.power_demand_mw
   - trigger: state
     entity_id:
-    - number.total_power_output_mw
+    - sensor.total_power_output_mw
   conditions:
   - condition: numeric_state
     entity_id: sensor.power_demand_mw
     above: 0
   - condition: numeric_state
-    entity_id: number.total_power_output_mw
+    entity_id: sensor.total_power_output_mw
     above: 0
   actions:
   - variables:
@@ -27,10 +27,10 @@
     - condition: or
       conditions:
       - condition: numeric_state
-        entity_id: number.total_power_output_mw
+        entity_id: sensor.total_power_output_mw
         below: sensor.demand_lowerlimit
       - condition: numeric_state
-        entity_id: number.total_power_output_mw
+        entity_id: sensor.total_power_output_mw
         above: sensor.demand_upperlimit
       alias: Power Output not within Demand Limits
     then:
@@ -62,9 +62,9 @@
       - action: persistent_notification.create
         data:
           message: 'Demand: {{ states(''sensor.power_demand_mw'') }} <br> Output:
-            {{ states(''number.total_power_output_mw'') }} <br> Delta = {{ states(''sensor.demand_delta'')
-            | round(2) }} <br><br> Loop: {{loop}} ==> PRIMARY PUMP speed adjustment
-            <br> Primary =   {{ states(''sensor.COOLANT_CORE_CIRCULATION_PUMP''+loop+''SPEED'')
+            {{ states(''sensor.total_power_output_mw'') | float }} <br> Delta = {{
+            states(''sensor.demand_delta'') | round(2) }} <br><br> Loop: {{loop}}
+            ==> PRIMARY PUMP speed adjustment <br> Primary =   {{ states(''sensor.COOLANT_CORE_CIRCULATION_PUMP''+loop+''SPEED'')
             | int }}% -> {{ states(''sensor.COOLANT_CORE_CIRCULATION_PUMP''+loop+''SPEED'')
             | int / 100 * states(''sensor.coolant_core_circulation_pump''+loop+''capacity'')
             | int }} L/m of {{ states(''sensor.coolant_core_circulation_pump''+loop+''capacity'')
@@ -137,7 +137,7 @@
   - trigger: state
     entity_id:
     - sensor.core_state_criticality
-    - sensor.core_temperature
+    - sensor.core_temp
     - sensor.rods_pos_actual
     for:
       hours: 0
@@ -147,7 +147,7 @@
   actions:
   - variables:
       tgt_reactivity: '{{ min(((states(''input_number.target_core_temp'') | float
-        - states(''sensor.core_temperature'') | float)  / states(''input_number.target_core_temp'')
+        - states(''sensor.core_temp'') | float)  / states(''input_number.target_core_temp'')
         | float) | round(3) * 10 | float,2) }}'
   - action: rest_command.nucleares_webserver_set
     data:
@@ -158,7 +158,7 @@
   - delay:
       hours: 0
       minutes: 0
-      seconds: '{{ (states(''sensor.core_temperature'') | int - states(''input_number.target_core_temp'')
+      seconds: '{{ (states(''sensor.core_temp'') | int - states(''input_number.target_core_temp'')
         | int) | abs / 10 / states(''sensor.game_sim_speed'') | int + 1 }}'
       milliseconds: 0
   mode: single
@@ -168,6 +168,7 @@
   triggers:
   - trigger: template
     value_template: '{{ states(''sensor.time'').split(":")[1] | int == 0 }}'
+    enabled: true
   conditions: []
   actions:
   - action: input_number.set_value
@@ -176,30 +177,12 @@
       value: 10000
     target:
       entity_id:
-      - input_number.timestamp_ppm
-      - input_number.timestamp_temp
-      - input_number.timestamp_mw
       - input_number.timestamp
-  - action: input_number.set_value
-    metadata: {}
-    data:
-      value: 100
-    target:
-      entity_id:
-      - input_number.timestamp_pct
-      - input_number.timestamp_react
-      - input_number.timestamp_concen
   - action: input_number.set_value
     metadata: {}
     data:
       value: 0
     target:
       entity_id:
-      - input_number.timestamp_ppm
-      - input_number.timestamp_temp
-      - input_number.timestamp_mw
       - input_number.timestamp
-      - input_number.timestamp_pct
-      - input_number.timestamp_react
-      - input_number.timestamp_concen
   mode: single
