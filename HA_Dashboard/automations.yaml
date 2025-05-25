@@ -108,17 +108,17 @@
             val: '{{ states(''sensor.mscv''+loop+''opening_actual'') | int +  (states(''sensor.demand_delta'')
               | int | abs) / (states(''sensor.demand_delta'') | int) }}'
           alias: Adjust Main Steam Control Valve +/- 1
-      - action: persistent_notification.create
+      - alias: NOTIFICATION
+        action: persistent_notification.create
         data:
           message: "Demand: {{ states('sensor.power_demand_mw') }} <br> Output: {{
-            states('number.total_power_output_mw') }} <br> Delta = {{ states('sensor.demand_delta')
+            states('sensor.total_power_output_mw') }} <br> Delta = {{ states('sensor.demand_delta')
             | round(2) }} <br><br> Loop: {{loop}} ==> STEAM VALVE adjustment  <br>MSCV
             = {{ target_mscv }} <br> New Primary = {{\n (target_mscv | int * 300 /
             states('sensor.coolant_core_circulation_pump'+loop+'capacity') |\nint)
             | int }} <br> New Secondary = {{ (target_mscv | int * 1000 / states('sensor.coolant_sec_circulation_pump'+loop+'capacity')
             | int) | int }}<br> Ratio:{{flow_ratio | round(4)}}"
         enabled: true
-        alias: NOTIFICATION
       - delay:
           hours: 0
           minutes: 0
@@ -149,12 +149,24 @@
       tgt_reactivity: '{{ min(((states(''input_number.target_core_temp'') | float
         - states(''sensor.core_temp'') | float)  / states(''input_number.target_core_temp'')
         | float) | round(3) * 10 | float,2) }}'
-  - action: rest_command.nucleares_webserver_set
-    data:
-      var: RODS_ALL_POS_ORDERED
-      val: '{{ states(''sensor.rods_pos_actual'') | float + max(states(''sensor.core_state_criticality'')
-        | float - tgt_reactivity,-2) }}'
-    alias: Adjust Control Rods
+  - alias: Target ROD Position different than Actual Position
+    if:
+    - condition: template
+      value_template: "{{  (states('sensor.rods_pos_actual') | float + max(states('sensor.core_state_criticality')
+        | float - tgt_reactivity,-2)) \n  | float | round(1) != states('sensor.rods_pos_actual')
+        | float | round(1) }}\n"
+    then:
+    - action: notify.persistent_notification
+      metadata: {}
+      data:
+        message: "SET RODS to {{(states('sensor.rods_pos_actual') | float + max(states('sensor.core_state_criticality')
+          | float - tgt_reactivity,-2)) \n    | float | round(2) }}"
+    - action: rest_command.nucleares_webserver_set
+      data:
+        var: RODS_ALL_POS_ORDERED
+        val: '{{ states(''sensor.rods_pos_actual'') | float + max(states(''sensor.core_state_criticality'')
+          | float - tgt_reactivity,-2) }}'
+      alias: Adjust Control Rods
   - delay:
       hours: 0
       minutes: 0
