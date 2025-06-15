@@ -25,16 +25,53 @@ rest_command:
   nucleares_webserver_set:
     url: http://10.0.6.10:8785/?variable={{var}}&value={{val}}
     method: POST
-    
+
 sensor:
-- platform: rest
-  name: ws
-  resource: http://10.0.6.10:8785/?variable=WEBSERVER_BATCH_GET
-  method: GET
-  scan_interval: 2
-  value_template: "Ok"
-  json_attributes:
-    - values
+  - platform: rest
+    name: ws
+    resource: http://10.0.6.10:8785/?variable=WEBSERVER_BATCH_GET&value=!WEBSERVER*
+    method: GET
+    scan_interval: 2
+    value_template: "Ok"
+    json_attributes:
+      - values
+  - platform: rest
+    name: INSTALLED_LOOPS_JSON
+    resource: http://10.0.6.10:8785/?variable=INSTALLED_LOOPS_JSON
+    method: GET
+    scan_interval: 10
+    value_template: "Ok"
+    json_attributes:
+      - Loop_0
+      - Loop_1
+      - Loop_2
+  - platform: rest
+    name: VALVE_PANEL_JSON_1
+    resource: http://10.0.6.10:8785/?variable=VALVE_PANEL_JSON
+    method: GET
+    scan_interval: 1
+    value_template: "Ok"
+    json_attributes:
+      - valves
+      - pumps
+  - platform: rest
+    name: VALVE_PANEL_JSON_2
+    resource: http://10.0.6.10:8785/?variable=VALVE_PANEL_JSON
+    method: GET
+    scan_interval: 1
+    value_template: "Ok"
+    json_attributes:
+      - pipes
+      - vessels
+  - platform: rest
+    name: WEATHER_FORECAST_JSON
+    resource: http://10.0.6.10:8785/?variable=WEATHER_FORECAST_JSON
+    method: GET
+    scan_interval: 1
+    value_template: "Ok"
+    json_attributes:
+      - forecast
+
 
 template: !include template_sensors.yaml
 

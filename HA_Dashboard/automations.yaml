@@ -59,7 +59,8 @@
           minutes: 0
           seconds: '{{ 3 / states(''sensor.game_sim_speed'') | int }}'
           milliseconds: 0
-      - action: persistent_notification.create
+      - alias: NOTIFICATION
+        action: persistent_notification.create
         data:
           message: 'Demand: {{ states(''sensor.power_demand_mw'') }} <br> Output:
             {{ states(''sensor.total_power_output_mw'') | float }} <br> Delta = {{
@@ -77,12 +78,12 @@
             }} L/m <br> Flow Ratio = {{ flow_ratio | round(3) }} <br> New Primary
             Pump speed:  {{ max(states(''sensor.coolant_core_circulation_pump''+loop+''speed'')
             | int + states(''sensor.demand_delta'') | int,6) }}%'
+          notification_id: PrimaryPump
         enabled: true
-        alias: NOTIFICATION
       else:
       - variables:
           target_mscv: '{{ max(min(states(''sensor.mscv''+loop+''opening_actual'')
-            | int + (states(''sensor.demand_delta'') | int / 4) | int,20),2) }}'
+            | int + (states(''sensor.demand_delta'') | int / 4) | int,40),2) }}'
       - alias: Match Secondary Pump Speed to Target MSCV
         action: rest_command.nucleares_webserver_set
         data:
@@ -118,6 +119,7 @@
             states('sensor.coolant_core_circulation_pump'+loop+'capacity') |\nint)
             | int }} <br> New Secondary = {{ (target_mscv | int * 1000 / states('sensor.coolant_sec_circulation_pump'+loop+'capacity')
             | int) | int }}<br> Ratio:{{flow_ratio | round(4)}}"
+          notification_id: SteamValve
         enabled: true
       - delay:
           hours: 0
@@ -161,6 +163,8 @@
       data:
         message: "SET RODS to {{(states('sensor.rods_pos_actual') | float + max(states('sensor.core_state_criticality')
           | float - tgt_reactivity,-2)) \n    | float | round(2) }}"
+        data:
+          notification_id: rods
     - action: rest_command.nucleares_webserver_set
       data:
         var: RODS_ALL_POS_ORDERED

@@ -12,7 +12,7 @@ views:
                   title: Core
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 yaxis:
                   - id: temp
                     align_to: 10
@@ -99,7 +99,7 @@ views:
                   title: Reactants
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 yaxis:
                   - id: generation
                     opposite: false
@@ -176,7 +176,7 @@ views:
                   title: Chemicals
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 yaxis:
                   - id: boron
                     align_to: 1000
@@ -245,7 +245,7 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 cache: false
                 yaxis:
                   - id: pump
@@ -310,7 +310,7 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 cache: false
                 yaxis:
                   - id: pump
@@ -375,7 +375,7 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 cache: false
                 yaxis:
                   - id: pump
@@ -442,7 +442,7 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 cache: false
                 yaxis:
                   - id: mscv
@@ -562,7 +562,7 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 cache: false
                 yaxis:
                   - id: mscv
@@ -682,7 +682,7 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 cache: false
                 yaxis:
                   - id: mscv
@@ -782,8 +782,6 @@ views:
                 apex_config:
                   chart:
                     height: 200px
-            grid_options:
-              columns: full
             visibility:
               - condition: or
                 conditions:
@@ -793,6 +791,8 @@ views:
                   - condition: numeric_state
                     entity: sensor.steam_gen_2_outlet
                     above: 0
+            grid_options:
+              columns: full
         column_span: 1
       - type: grid
         cards:
@@ -804,7 +804,7 @@ views:
                   title: Power
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 cache: false
                 yaxis:
                   - id: power
@@ -905,6 +905,405 @@ views:
                     height: 400px
             grid_options:
               columns: full
+        column_span: 2
+      - type: grid
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Steam Gen - Loop A
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 10m
+                cache: false
+                yaxis:
+                  - id: bar
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - pink
+                  - id: temp
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightgreen
+                            - orange
+                  - id: flow
+                    show: false
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightblue
+                            - white
+                  - id: none
+                    show: false
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.coolant_sec_0_volume
+                    name: STG VOLUME
+                    yaxis_id: none
+                    color: lightblue
+                    opacity: 0.5
+                    stroke_width: 1
+                  - entity: sensor.steam_gen_0_evaporated
+                    name: STG EVAP
+                    yaxis_id: flow
+                    color: cyan
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: sensor.coolant_sec_0_pressure
+                    name: STG Pressure
+                    yaxis_id: bar
+                    curve: stepline
+                    color: pink
+                    opacity: 0.6
+                    stroke_width: 3
+                  - entity: sensor.coolant_sec_0_temperature
+                    name: STG Temp
+                    yaxis_id: temp
+                    color: lightgreen
+                    opacity: 0.5
+                    stroke_width: 4
+                  - entity: sensor.steam_gen_0_boiling_point
+                    name: Boiling Point
+                    yaxis_id: temp
+                    color: orange
+                    opacity: 0.5
+                    stroke_width: 4
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: state
+                entity: sensor.steam_turbine_0_installed
+                state: 'True'
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Steam Gen - Loop B
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 10m
+                cache: false
+                yaxis:
+                  - id: bar
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - pink
+                  - id: temp
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightgreen
+                            - orange
+                  - id: flow
+                    show: false
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightblue
+                            - white
+                  - id: none
+                    show: false
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.coolant_sec_1_volume
+                    name: STG VOLUME
+                    yaxis_id: none
+                    color: lightblue
+                    opacity: 0.5
+                    stroke_width: 1
+                  - entity: sensor.steam_gen_1_evaporated
+                    name: STG EVAP
+                    yaxis_id: flow
+                    color: cyan
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: sensor.coolant_sec_1_pressure
+                    name: STG Pressure
+                    yaxis_id: bar
+                    curve: stepline
+                    color: pink
+                    opacity: 0.6
+                    stroke_width: 3
+                  - entity: sensor.coolant_sec_1_temperature
+                    name: STG Temp
+                    yaxis_id: temp
+                    color: lightgreen
+                    opacity: 0.5
+                    stroke_width: 4
+                  - entity: sensor.steam_gen_1_boiling_point
+                    name: Boiling Point
+                    yaxis_id: temp
+                    color: orange
+                    opacity: 0.5
+                    stroke_width: 4
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: state
+                entity: sensor.steam_turbine_1_installed
+                state: 'True'
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Steam Gen - Loop C
+                  icon: mdi:pot-steam
+                  show_states: true
+                  colorize_states: true
+                graph_span: 10m
+                cache: false
+                yaxis:
+                  - id: bar
+                    show: false
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - pink
+                  - id: temp
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightgreen
+                            - orange
+                  - id: flow
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 5
+                      labels:
+                        style:
+                          colors:
+                            - lightblue
+                            - cyan
+                  - id: none
+                    show: false
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.coolant_sec_2_pressure
+                    name: STG Pressure
+                    yaxis_id: bar
+                    curve: stepline
+                    color: pink
+                    opacity: 0.6
+                    stroke_width: 3
+                  - entity: sensor.coolant_sec_2_temperature
+                    name: STG Temp
+                    yaxis_id: temp
+                    color: lightgreen
+                    opacity: 0.5
+                    stroke_width: 4
+                  - entity: sensor.steam_gen_2_boiling_point
+                    name: Boiling Point
+                    yaxis_id: temp
+                    color: orange
+                    opacity: 0.5
+                    stroke_width: 4
+                  - entity: sensor.steam_gen_2_return_flow_plus_condensed
+                    name: STG RFC
+                    yaxis_id: flow
+                    color: cyan
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: sensor.steam_gen_2_evaporated
+                    name: STG EVAP
+                    yaxis_id: flow
+                    color: skyblue
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 200px
+            grid_options:
+              columns: full
+            visibility:
+              - condition: state
+                entity: sensor.steam_turbine_2_installed
+                state: 'True'
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Vacuum System
+                  show_states: true
+                  colorize_states: true
+                graph_span: 10m
+                yaxis:
+                  - id: valves
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - white
+                  - id: flow
+                    opposite: true
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - blue
+                  - id: none
+                    show: false
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.vacuum_pump_state
+                    name: Vacuum Pump
+                    yaxis_id: flow
+                    curve: stepline
+                    color: red
+                    stroke_width: 2
+                  - entity: sensor.condenser_vacuum
+                    name: Condenser Vacuum
+                    yaxis_id: flow
+                    transform: return x * 100
+                    unit: '%'
+                    curve: stepline
+                    color: green
+                    stroke_width: 2
+                  - entity: sensor.valvula_entrada_ejector_eva
+                    name: Startup Motive Steam Valve
+                    yaxis_id: valves
+                    curve: stepline
+                    color: orange
+                    stroke_width: 2
+                  - entity: sensor.valvula_entrada_ejector_tur
+                    name: Operational Motive Steam Valve
+                    yaxis_id: valves
+                    curve: stepline
+                    color: purple
+                    stroke_width: 2
+                  - entity: sensor.valvula_retorno_condensador
+                    name: Condenser Return Valve
+                    yaxis_id: valves
+                    curve: stepline
+                    color: cyan
+                    stroke_width: 2
+                  - entity: sensor.steam_ejector_motive
+                    name: Motive Steam Flow Rate
+                    yaxis_id: flow
+                    curve: stepline
+                    color: blue
+                    stroke_width: 2
+                  - entity: sensor.tanquederetencioncondensador
+                    name: Retention Tank Volume
+                    yaxis_id: none
+                    curve: stepline
+                    color: orange
+                    stroke_width: 2
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 250px
+            grid_options:
+              columns: full
+        column_span: 2
+      - type: grid
+        cards:
           - type: horizontal-stack
             cards:
               - type: custom:apexcharts-card
@@ -913,7 +1312,7 @@ views:
                   title: Condenser
                   show_states: true
                   colorize_states: true
-                graph_span: 1h
+                graph_span: 10m
                 yaxis:
                   - id: pumps
                     align_to: 10
@@ -937,6 +1336,13 @@ views:
                   - id: time
                     show: false
                 series:
+                  - entity: sensor.condenser_condensate_flow_rate
+                    name: Condensate Flow Rate
+                    yaxis_id: temps
+                    unit: kg/sec
+                    curve: stepline
+                    color: cyan
+                    stroke_width: 2
                   - entity: sensor.condenser_circulation_pump_speed
                     name: Condenser Pump
                     yaxis_id: pumps
@@ -948,6 +1354,12 @@ views:
                     yaxis_id: temps
                     curve: stepline
                     color: red
+                    stroke_width: 2
+                  - entity: sensor.ambient_temperature
+                    name: Ambient Temp
+                    yaxis_id: temps
+                    curve: stepline
+                    color: pink
                     stroke_width: 2
                   - entity: input_number.timestamp
                     yaxis_id: time
@@ -965,6 +1377,148 @@ views:
                     height: 250px
             grid_options:
               columns: full
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Secondary Fluid Balance
+                  show_states: true
+                  colorize_states: true
+                graph_span: 10m
+                yaxis:
+                  - id: liters
+                    opposite: true
+                    align_to: 100
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                  - id: kilograms
+                    align_to: 100
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                    show: false
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.coolant_sec_2_volume
+                    name: STG TOTAL VOLUME
+                    yaxis_id: liters
+                    color: orangered
+                    opacity: 0.8
+                    stroke_width: 2
+                  - entity: sensor.steam_gen_2_vapor_volume
+                    name: STG Vapor Volume
+                    yaxis_id: liters
+                    color: grey
+                    opacity: 0.8
+                    stroke_width: 2
+                  - entity: sensor.coolant_sec_2_liquid_volume
+                    name: STG Liquid Volume
+                    yaxis_id: liters
+                    color: lightblue
+                    opacity: 0.5
+                    stroke_width: 1
+                  - entity: sensor.condenser_vapor_volume
+                    name: Condenser Vapor Volume
+                    yaxis_id: kilograms
+                    unit: kg
+                    curve: stepline
+                    color: white
+                    stroke_width: 2
+                  - entity: sensor.condenser_volume
+                    name: Condenser Liquid Volume
+                    yaxis_id: liters
+                    curve: stepline
+                    color: cyan
+                    stroke_width: 2
+                  - entity: sensor.condenser_total_volume
+                    name: CONDENSER TOTAL VOLUME
+                    yaxis_id: liters
+                    curve: stepline
+                    color: orange
+                    stroke_width: 2
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 250px
+            grid_options:
+              columns: full
+          - type: horizontal-stack
+            cards:
+              - type: custom:apexcharts-card
+                header:
+                  show: true
+                  title: Secondary Fluid Totals
+                  show_states: true
+                  colorize_states: true
+                graph_span: 10m
+                yaxis:
+                  - id: liters
+                    opposite: true
+                    align_to: 100
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                  - id: kilograms
+                    align_to: 100
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                    show: false
+                  - id: time
+                    show: false
+                series:
+                  - entity: sensor.total_liquid_volume
+                    name: TOTAL LIQUID VOLUME
+                    yaxis_id: liters
+                    curve: stepline
+                    color: cyan
+                    stroke_width: 2
+                  - entity: sensor.total_vapor_volume
+                    name: TOTAL VAPOR VOLUME
+                    yaxis_id: kilograms
+                    curve: stepline
+                    color: white
+                    stroke_width: 2
+                  - entity: sensor.total_system_volume
+                    name: TOTAL SYSTEM VOLUME
+                    yaxis_id: liters
+                    curve: stepline
+                    color: orange
+                    stroke_width: 2
+                  - entity: input_number.timestamp
+                    yaxis_id: time
+                    color: grey
+                    type: column
+                    show:
+                      in_header: false
+                      legend_value: false
+                grid_options:
+                  columns: full
+                experimental:
+                  disable_config_validation: true
+                apex_config:
+                  chart:
+                    height: 250px
+            grid_options:
+              columns: full
+        column_span: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading: New section
         column_span: 2
     badges:
       - type: entity

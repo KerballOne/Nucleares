@@ -41,7 +41,6 @@ sensor:
       states('sensor.coolant_core_circulation_pump_2_capacity') | int +0.1) }}
     unit_of_measurement: Fs/Fp
 
-
   - name: ALARMS_ACTIVE
     unique_id: alarms_active
     state: "{{ state_attr('sensor.ws','values').ALARMS_ACTIVE }}"
@@ -227,6 +226,14 @@ sensor:
   - name: COOLANT_SEC_2_VOLUME
     unique_id: coolant_sec_2_volume
     state: "{{ state_attr('sensor.ws','values').COOLANT_SEC_2_VOLUME }}"
+    unit_of_measurement: L
+  - name: COOLANT_SEC_2_VOLUME
+    unique_id: coolant_sec_2_volume
+    state: "{{ state_attr('sensor.ws','values').COOLANT_SEC_2_VOLUME }}"
+    unit_of_measurement: L
+  - name: COOLANT_SEC_2_LIQUID_VOLUME
+    unique_id: COOLANT_SEC_2_LIQUID_VOLUME
+    state: "{{ state_attr('sensor.ws','values').COOLANT_SEC_2_LIQUID_VOLUME }}"
     unit_of_measurement: L
   - name: COOLANT_SEC_CIRCULATION_PUMP_0_CAPACITY
     unique_id: coolant_sec_circulation_pump_0_capacity
@@ -608,6 +615,14 @@ sensor:
     unique_id: steam_gen_0_evaporated
     state: "{{ state_attr('sensor.ws','values').STEAM_GEN_0_EVAPORATED }}"
     unit_of_measurement: L/min
+  - name: STEAM_GEN_0_TEMP_OF_EVAPORATION
+    unique_id: STEAM_GEN_0_TEMP_OF_EVAPORATION
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_0_TEMP_OF_EVAPORATION }}"
+    unit_of_measurement: °C
+  - name: STEAM_GEN_0_BOILING_POINT
+    unique_id: STEAM_GEN_0_BOILING_POINT
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_0_BOILING_POINT }}"
+    unit_of_measurement: °C
   - name: STEAM_GEN_0_INLET
     unique_id: steam_gen_0_inlet
     state: "{{ state_attr('sensor.ws','values').STEAM_GEN_0_INLET }}"
@@ -624,6 +639,14 @@ sensor:
     unique_id: steam_gen_1_evaporated
     state: "{{ state_attr('sensor.ws','values').STEAM_GEN_1_EVAPORATED }}"
     unit_of_measurement: L/min
+  - name: STEAM_GEN_1_TEMP_OF_EVAPORATION
+    unique_id: STEAM_GEN_1_TEMP_OF_EVAPORATION
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_1_TEMP_OF_EVAPORATION }}"
+    unit_of_measurement: °C
+  - name: STEAM_GEN_1_BOILING_POINT
+    unique_id: STEAM_GEN_1_BOILING_POINT
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_1_BOILING_POINT }}"
+    unit_of_measurement: °C
   - name: STEAM_GEN_1_INLET
     unique_id: steam_gen_1_inlet
     state: "{{ state_attr('sensor.ws','values').STEAM_GEN_1_INLET }}"
@@ -640,6 +663,14 @@ sensor:
     unique_id: steam_gen_2_evaporated
     state: "{{ state_attr('sensor.ws','values').STEAM_GEN_2_EVAPORATED }}"
     unit_of_measurement: L/min
+  - name: STEAM_GEN_2_TEMP_OF_EVAPORATION
+    unique_id: STEAM_GEN_2_TEMP_OF_EVAPORATION
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_2_TEMP_OF_EVAPORATION }}"
+    unit_of_measurement: °C
+  - name: STEAM_GEN_2_BOILING_POINT
+    unique_id: STEAM_GEN_2_BOILING_POINT
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_2_BOILING_POINT }}"
+    unit_of_measurement: °C
   - name: STEAM_GEN_2_INLET
     unique_id: steam_gen_2_inlet
     state: "{{ state_attr('sensor.ws','values').STEAM_GEN_2_INLET }}"
@@ -718,3 +749,128 @@ sensor:
   - name: VALVE_M03_OPEN
     unique_id: valve_m03_open
     state: "{{ state_attr('sensor.ws','values').VALVE_M03_OPEN }}"
+  - name: CHEMICAL_DOSING_PUMP_STATUS
+    unique_id: CHEMICAL_DOSING_PUMP_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_DOSING_PUMP_STATUS }}"
+  - name: CHEMICAL_DOSING_PUMP_DRY_STATUS
+    unique_id: CHEMICAL_DOSING_PUMP_DRY_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_DOSING_PUMP_DRY_STATUS }}"
+  - name: CHEMICAL_DOSING_PUMP_OVERLOAD_STATUS
+    unique_id: CHEMICAL_DOSING_PUMP_OVERLOAD_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_DOSING_PUMP_OVERLOAD_STATUS }}"
+  - name: CHEMICAL_FILTER_PUMP_STATUS
+    unique_id: CHEMICAL_FILTER_PUMP_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_FILTER_PUMP_STATUS }}"
+  - name: CHEMICAL_FILTER_PUMP_DRY_STATUS
+    unique_id: CHEMICAL_FILTER_PUMP_DRY_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_FILTER_PUMP_DRY_STATUS }}"
+  - name: CHEMICAL_FILTER_PUMP_OVERLOAD_STATUS
+    unique_id: CHEMICAL_FILTER_PUMP_OVERLOAD_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_FILTER_PUMP_OVERLOAD_STATUS }}"
+  - name: CHEMICAL_CLEANING_PUMP_STATUS
+    unique_id: CHEMICAL_CLEANING_PUMP_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_CLEANING_PUMP_STATUS }}"
+  - name: CHEMICAL_CLEANING_PUMP_DRY_STATUS
+    unique_id: CHEMICAL_CLEANING_PUMP_DRY_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_CLEANING_PUMP_DRY_STATUS }}"
+  - name: CHEMICAL_CLEANING_PUMP_OVERLOAD_STATUS
+    unique_id: CHEMICAL_CLEANING_PUMP_OVERLOAD_STATUS
+    state: "{{ state_attr('sensor.ws','values').CHEMICAL_CLEANING_PUMP_OVERLOAD_STATUS }}"
+  - name: STEAM_GEN_0_STATUS
+    unique_id: STEAM_GEN_0_STATUS
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_0_STATUS }}"
+  - name: STEAM_GEN_1_STATUS
+    unique_id: STEAM_GEN_1_STATUS
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_1_STATUS }}"
+  - name: STEAM_GEN_2_STATUS
+    unique_id: STEAM_GEN_2_STATUS
+    state: "{{ state_attr('sensor.ws','values').STEAM_GEN_2_STATUS }}"
+  - name: STEAM_TURBINE_0_INSTALLED
+    unique_id: TSTEAM_URBINE_0_INSTALLED
+    state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_0_INSTALLED }}"
+  - name: STEAM_TURBINE_1_INSTALLED
+    unique_id: STEAM_TURBINE_1_INSTALLED
+    state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_1_INSTALLED }}"
+  - name: STEAM_TURBINE_2_INSTALLED
+    unique_id: STEAM_TURBINE_2_INSTALLED
+    state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_2_INSTALLED }}"
+
+  - name: CONDENSER_VACUUM_PUMP_POWER
+    unique_id: CONDENSER_VACUUM_PUMP_POWER
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_VACUUM_PUMP_POWER }}"
+  - name: CONDENSER_VACUUM_PUMP_MODE
+    unique_id: CONDENSER_VACUUM_PUMP_MODE
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_VACUUM_PUMP_MODE }}"
+  - name: CONDENSER_VACUUM
+    unique_id: CONDENSER_VACUUM
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_VACUUM }}"
+  - name: CONDENSER_VACUUM_RELIEF_VALVE_OPENING
+    unique_id: CONDENSER_VACUUM_RELIEF_VALVE_OPENING
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_VACUUM_RELIEF_VALVE_OPENING }}"
+  - name: CONDENSER_VACUUM_PUMP_ACTIVE
+    unique_id: CONDENSER_VACUUM_PUMP_ACTIVE
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_VACUUM_PUMP_ACTIVE }}"
+  - name: STEAM_EJECTOR_MOTIVE
+    unique_id: STEAM_EJECTOR_MOTIVE
+    state: "{{ state_attr('sensor.ws','values').STEAM_EJECTOR_MOTIVE }}"
+  - name: CONDENSER_CONDENSATE_FLOW_RATE
+    unique_id: CONDENSER_CONDENSATE_FLOW_RATE
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_CONDENSATE_FLOW_RATE }}"
+    unit_of_measurement: kg/sec
+  - name: AMBIENT_TEMPERATURE
+    unique_id: AMBIENT_TEMPERATURE
+    state: "{{ state_attr('sensor.ws','values').AMBIENT_TEMPERATURE }}"
+    unit_of_measurement: °C
+
+  - name: TanqueDeRetencionCondensador
+    unique_id: TanqueDeRetencionCondensador
+    state: "{{ state_attr('sensor.valve_panel_json_2','vessels').TanqueDeRetencionCondensador.Volume[0] }}"
+    unit_of_measurement: L
+  - name: VALVULA_VENTEO_TANQUE_RETENCION
+    unique_id: VALVULA_VENTEO_TANQUE_RETENCION
+    state: "{{ state_attr('sensor.valve_panel_json_1','valves').VALVULA_VENTEO_TANQUE_RETENCION.Value }}"
+  - name: VALVULA_ENTRADA_EJECTOR_EVA
+    unique_id: VALVULA_ENTRADA_EJECTOR_EVA
+    state: "{{ state_attr('sensor.valve_panel_json_1','valves').VALVULA_ENTRADA_EJECTOR_EVA.Value }}"
+  - name: VALVULA_ENTRADA_EJECTOR_TUR
+    unique_id: VALVULA_ENTRADA_EJECTOR_TUR
+    state: "{{ state_attr('sensor.valve_panel_json_1','valves').VALVULA_ENTRADA_EJECTOR_TUR.Value }}"
+  - name: VALVULA_RETORNO_CONDENSADOR
+    unique_id: VALVULA_RETORNO_CONDENSADOR
+    state: "{{ state_attr('sensor.valve_panel_json_1','valves').VALVULA_RETORNO_CONDENSADOR.Value }}"
+
+  - name: CONDENSER_VAPOR_VOLUME
+    unique_id: CONDENSER_VAPOR_VOLUME
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_VAPOR_VOLUME }}"
+    unit_of_measurement: kg
+  - name: STEAM_GEN_2_VAPOR_VOLUME
+    unique_id: STEAM_GEN_2_VAPOR_VOLUME
+    state:  "{{ state_attr('sensor.ws','values').COOLANT_SEC_2_VOLUME - state_attr('sensor.ws','values').COOLANT_SEC_2_LIQUID_VOLUME }}"
+    unit_of_measurement: L
+  - name: CONDENSER_TOTAL_VOLUME
+    unique_id: CONDENSER_TOTAL_VOLUME
+    state:  "{{ state_attr('sensor.ws','values').CONDENSER_VOLUME + state_attr('sensor.ws','values').CONDENSER_VAPOR_VOLUME }}"
+    unit_of_measurement: L
+  - name: TOTAL_LIQUID_VOLUME
+    unique_id: TOTAL_LIQUID_VOLUME
+    state:  "{{ states('sensor.COOLANT_SEC_2_LIQUID_VOLUME') | float + states('sensor.CONDENSER_VOLUME') | float + states('sensor.TanqueDeRetencionCondensador') | float(0) }}"
+    unit_of_measurement: L
+  - name: TOTAL_VAPOR_VOLUME
+    unique_id: TOTAL_VAPOR_VOLUME
+    state:  "{{ states('sensor.STEAM_GEN_2_VAPOR_VOLUME') | float + states('sensor.CONDENSER_VAPOR_VOLUME') | float }}"
+    unit_of_measurement: kg
+  - name: TOTAL_SYSTEM_VOLUME
+    unique_id: TOTAL_SYSTEM_VOLUME
+    state:  "{{ states('sensor.TOTAL_VAPOR_VOLUME') | float + states('sensor.TOTAL_LIQUID_VOLUME') | float }}"
+    unit_of_measurement: kg|L
+
+  - name: Vacuum Pump State
+    unit_of_measurement: "%"
+    state: >
+      {% set value = 0 %}     
+      {% if states('sensor.condenser_vacuum_pump_active') == "False" %} {% set value = 0 %}
+      {% elif states('sensor.condenser_vacuum_pump_mode') == "STARTUP" %} {% set value = 100 %}
+      {% elif states('sensor.condenser_vacuum_pump_mode') == "OPERACIONAL" %} {% set value = 50 %}
+      {% endif %}
+      {{ value | int }}
+
