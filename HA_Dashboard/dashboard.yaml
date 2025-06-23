@@ -438,7 +438,7 @@ views:
               - type: custom:apexcharts-card
                 header:
                   show: true
-                  title: Steam - Loop A
+                  title: Turbine - Loop A
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
@@ -454,6 +454,15 @@ views:
                         style:
                           colors:
                             - pink
+                  - id: torque
+                    align_to: 10
+                    decimals: 2
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - red
                   - id: balance1
                     opposite: true
                     align_to: 10
@@ -487,19 +496,21 @@ views:
                     yaxis_id: mscv
                     curve: stepline
                     color: pink
-                    stroke_width: 3
-                  - entity: sensor.steam_gen_0_inlet
-                    name: STG INLET
-                    yaxis_id: balance1
+                    stroke_width: 1
+                  - entity: sensor.steam_turbine_0_bypass_actual
+                    name: Bypass
+                    yaxis_id: mscv
+                    unit: '%'
                     color: lightgreen
                     opacity: 0.6
-                    stroke_width: 4
-                  - entity: sensor.steam_gen_0_outlet
-                    name: STG OUTLET
-                    unit: kg/m
-                    yaxis_id: balance1
+                    stroke_width: 2
+                  - entity: sensor.steam_turbine_0_torque
+                    name: Torque
+                    unit: Nm
+                    decimals: 5
+                    yaxis_id: torque
                     color: red
-                    opacity: 0.6
+                    opacity: 1
                     stroke_width: 4
                   - entity: sensor.steam_gen_0_return_flow_plus_condensed
                     name: STG RFC
@@ -558,7 +569,7 @@ views:
               - type: custom:apexcharts-card
                 header:
                   show: true
-                  title: Steam - Loop B
+                  title: Turbine - Loop B
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
@@ -574,6 +585,15 @@ views:
                         style:
                           colors:
                             - pink
+                  - id: torque
+                    align_to: 10
+                    decimals: 2
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - red
                   - id: balance1
                     opposite: true
                     align_to: 10
@@ -607,20 +627,22 @@ views:
                     yaxis_id: mscv
                     curve: stepline
                     color: pink
-                    stroke_width: 5
-                  - entity: sensor.steam_gen_1_inlet
-                    name: STG INLET
-                    yaxis_id: balance1
+                    stroke_width: 1
+                  - entity: sensor.steam_turbine_1_bypass_actual
+                    name: Bypass
+                    yaxis_id: mscv
+                    unit: '%'
                     color: lightgreen
                     opacity: 0.6
-                    stroke_width: 1
-                  - entity: sensor.steam_gen_1_outlet
-                    name: STG OUTLET
-                    unit: kg/m
-                    yaxis_id: balance1
+                    stroke_width: 2
+                  - entity: sensor.steam_turbine_1_torque
+                    name: Torque
+                    unit: Nm
+                    decimals: 5
+                    yaxis_id: torque
                     color: red
-                    opacity: 0.6
-                    stroke_width: 1
+                    opacity: 1
+                    stroke_width: 4
                   - entity: sensor.steam_gen_1_return_flow_plus_condensed
                     name: STG RFC
                     yaxis_id: balance2
@@ -678,7 +700,7 @@ views:
               - type: custom:apexcharts-card
                 header:
                   show: true
-                  title: Steam - Loop C
+                  title: Turbine - Loop C
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
@@ -694,6 +716,15 @@ views:
                         style:
                           colors:
                             - pink
+                  - id: torque
+                    align_to: 10
+                    decimals: 2
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - red
                   - id: balance1
                     opposite: true
                     align_to: 10
@@ -727,19 +758,21 @@ views:
                     yaxis_id: mscv
                     curve: stepline
                     color: pink
-                    stroke_width: 3
-                  - entity: sensor.steam_gen_2_inlet
-                    name: STG INLET
-                    yaxis_id: balance1
+                    stroke_width: 1
+                  - entity: sensor.steam_turbine_2_bypass_actual
+                    name: Bypass
+                    yaxis_id: mscv
+                    unit: '%'
                     color: lightgreen
                     opacity: 0.6
-                    stroke_width: 4
-                  - entity: sensor.steam_gen_2_outlet
-                    name: STG OUTLET
-                    unit: kg/m
-                    yaxis_id: balance1
+                    stroke_width: 2
+                  - entity: sensor.steam_turbine_2_torque
+                    name: Torque
+                    unit: Nm
+                    decimals: 5
+                    yaxis_id: torque
                     color: red
-                    opacity: 0.6
+                    opacity: 1
                     stroke_width: 4
                   - entity: sensor.steam_gen_2_return_flow_plus_condensed
                     name: STG RFC
@@ -917,10 +950,11 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 10m
+                graph_span: 30m
                 cache: false
                 yaxis:
                   - id: bar
+                    show: false
                     align_to: 10
                     decimals: 0
                     apex_config:
@@ -930,7 +964,6 @@ views:
                           colors:
                             - pink
                   - id: temp
-                    opposite: true
                     align_to: 10
                     decimals: 0
                     apex_config:
@@ -939,52 +972,45 @@ views:
                         style:
                           colors:
                             - lightgreen
-                            - orange
                   - id: flow
-                    show: false
                     opposite: true
                     align_to: 10
                     decimals: 0
                     apex_config:
                       tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - lightblue
-                            - white
                   - id: none
                     show: false
                   - id: time
                     show: false
                 series:
-                  - entity: sensor.coolant_sec_0_volume
-                    name: STG VOLUME
-                    yaxis_id: none
-                    color: lightblue
-                    opacity: 0.5
-                    stroke_width: 1
-                  - entity: sensor.steam_gen_0_evaporated
-                    name: STG EVAP
-                    yaxis_id: flow
-                    color: cyan
-                    opacity: 0.6
-                    stroke_width: 2
                   - entity: sensor.coolant_sec_0_pressure
-                    name: STG Pressure
+                    name: Pressure
                     yaxis_id: bar
                     curve: stepline
                     color: pink
                     opacity: 0.6
                     stroke_width: 3
                   - entity: sensor.coolant_sec_0_temperature
-                    name: STG Temp
+                    name: Temperature
                     yaxis_id: temp
                     color: lightgreen
                     opacity: 0.5
                     stroke_width: 4
-                  - entity: sensor.steam_gen_0_boiling_point
-                    name: Boiling Point
-                    yaxis_id: temp
+                  - entity: sensor.steam_gen_0_return_flow_plus_condensed
+                    name: Return Flow
+                    yaxis_id: flow
+                    color: cyan
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: sensor.steam_gen_0_evaporated
+                    name: Evaporation Rate
+                    yaxis_id: flow
+                    color: skyblue
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: sensor.steam_gen_0_outlet
+                    name: Steam Output
+                    yaxis_id: flow
                     color: orange
                     opacity: 0.5
                     stroke_width: 4
@@ -1017,10 +1043,11 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 10m
+                graph_span: 30m
                 cache: false
                 yaxis:
                   - id: bar
+                    show: false
                     align_to: 10
                     decimals: 0
                     apex_config:
@@ -1030,7 +1057,6 @@ views:
                           colors:
                             - pink
                   - id: temp
-                    opposite: true
                     align_to: 10
                     decimals: 0
                     apex_config:
@@ -1039,52 +1065,45 @@ views:
                         style:
                           colors:
                             - lightgreen
-                            - orange
                   - id: flow
-                    show: false
                     opposite: true
                     align_to: 10
                     decimals: 0
                     apex_config:
                       tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - lightblue
-                            - white
                   - id: none
                     show: false
                   - id: time
                     show: false
                 series:
-                  - entity: sensor.coolant_sec_1_volume
-                    name: STG VOLUME
-                    yaxis_id: none
-                    color: lightblue
-                    opacity: 0.5
-                    stroke_width: 1
-                  - entity: sensor.steam_gen_1_evaporated
-                    name: STG EVAP
-                    yaxis_id: flow
-                    color: cyan
-                    opacity: 0.6
-                    stroke_width: 2
                   - entity: sensor.coolant_sec_1_pressure
-                    name: STG Pressure
+                    name: Pressure
                     yaxis_id: bar
                     curve: stepline
                     color: pink
                     opacity: 0.6
                     stroke_width: 3
                   - entity: sensor.coolant_sec_1_temperature
-                    name: STG Temp
+                    name: Temperature
                     yaxis_id: temp
                     color: lightgreen
                     opacity: 0.5
                     stroke_width: 4
-                  - entity: sensor.steam_gen_1_boiling_point
-                    name: Boiling Point
-                    yaxis_id: temp
+                  - entity: sensor.steam_gen_1_return_flow_plus_condensed
+                    name: Return Flow
+                    yaxis_id: flow
+                    color: cyan
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: sensor.steam_gen_1_evaporated
+                    name: Evaporation Rate
+                    yaxis_id: flow
+                    color: skyblue
+                    opacity: 0.6
+                    stroke_width: 2
+                  - entity: sensor.steam_gen_1_outlet
+                    name: Steam Output
+                    yaxis_id: flow
                     color: orange
                     opacity: 0.5
                     stroke_width: 4
@@ -1117,7 +1136,7 @@ views:
                   icon: mdi:pot-steam
                   show_states: true
                   colorize_states: true
-                graph_span: 10m
+                graph_span: 30m
                 cache: false
                 yaxis:
                   - id: bar
@@ -1139,54 +1158,48 @@ views:
                         style:
                           colors:
                             - lightgreen
-                            - orange
                   - id: flow
                     opposite: true
                     align_to: 10
                     decimals: 0
                     apex_config:
                       tickAmount: 5
-                      labels:
-                        style:
-                          colors:
-                            - lightblue
-                            - cyan
                   - id: none
                     show: false
                   - id: time
                     show: false
                 series:
                   - entity: sensor.coolant_sec_2_pressure
-                    name: STG Pressure
+                    name: Pressure
                     yaxis_id: bar
                     curve: stepline
                     color: pink
                     opacity: 0.6
                     stroke_width: 3
                   - entity: sensor.coolant_sec_2_temperature
-                    name: STG Temp
+                    name: Temperature
                     yaxis_id: temp
                     color: lightgreen
                     opacity: 0.5
                     stroke_width: 4
-                  - entity: sensor.steam_gen_2_boiling_point
-                    name: Boiling Point
-                    yaxis_id: temp
-                    color: orange
-                    opacity: 0.5
-                    stroke_width: 4
                   - entity: sensor.steam_gen_2_return_flow_plus_condensed
-                    name: STG RFC
+                    name: Return Flow
                     yaxis_id: flow
                     color: cyan
                     opacity: 0.6
                     stroke_width: 2
                   - entity: sensor.steam_gen_2_evaporated
-                    name: STG EVAP
+                    name: Evaporation Rate
                     yaxis_id: flow
                     color: skyblue
                     opacity: 0.6
                     stroke_width: 2
+                  - entity: sensor.steam_gen_2_outlet
+                    name: Steam Output
+                    yaxis_id: flow
+                    color: orange
+                    opacity: 0.5
+                    stroke_width: 4
                   - entity: input_number.timestamp
                     yaxis_id: time
                     color: grey
@@ -1312,7 +1325,7 @@ views:
                   title: Condenser
                   show_states: true
                   colorize_states: true
-                graph_span: 10m
+                graph_span: 30m
                 yaxis:
                   - id: pumps
                     align_to: 10
@@ -1323,9 +1336,18 @@ views:
                         style:
                           colors:
                             - green
+                  - id: flow
+                    align_to: 10
+                    decimals: 0
+                    apex_config:
+                      tickAmount: 4
+                      labels:
+                        style:
+                          colors:
+                            - cyan
                   - id: temps
                     opposite: true
-                    align_to: 10
+                    max: 50
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -1338,10 +1360,24 @@ views:
                 series:
                   - entity: sensor.condenser_condensate_flow_rate
                     name: Condensate Flow Rate
-                    yaxis_id: temps
+                    yaxis_id: flow
                     unit: kg/sec
                     curve: stepline
                     color: cyan
+                    stroke_width: 2
+                  - entity: sensor.condenser_extraction_flow_rate
+                    name: Extractor Flow Rate
+                    yaxis_id: flow
+                    unit: L/sec
+                    curve: stepline
+                    color: white
+                    stroke_width: 2
+                  - entity: sensor.condenser_coolant_evaporated
+                    name: Evaporation Rate
+                    yaxis_id: flow
+                    unit: L/sec
+                    curve: stepline
+                    color: purple
                     stroke_width: 2
                   - entity: sensor.condenser_circulation_pump_speed
                     name: Condenser Pump
@@ -1389,12 +1425,12 @@ views:
                 yaxis:
                   - id: liters
                     opposite: true
-                    align_to: 100
+                    align_to: 50000
                     decimals: 0
                     apex_config:
                       tickAmount: 4
                   - id: kilograms
-                    align_to: 100
+                    align_to: 50000
                     decimals: 0
                     apex_config:
                       tickAmount: 4
@@ -1467,12 +1503,12 @@ views:
                 yaxis:
                   - id: liters
                     opposite: true
-                    align_to: 100
+                    align_to: 50000
                     decimals: 0
                     apex_config:
                       tickAmount: 4
                   - id: kilograms
-                    align_to: 100
+                    align_to: 50000
                     decimals: 0
                     apex_config:
                       tickAmount: 4

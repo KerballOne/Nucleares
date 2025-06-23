@@ -359,6 +359,7 @@ sensor:
   - name: CORE_STATE_CRITICALITY
     unique_id: core_state_criticality
     state: "{{ state_attr('sensor.ws','values').CORE_STATE_CRITICALITY }}"
+    unit_of_measurement: r
   - name: CORE_STEAM_PRESENT
     unique_id: core_steam_present
     state: "{{ state_attr('sensor.ws','values').CORE_STEAM_PRESENT }}"
@@ -699,6 +700,11 @@ sensor:
     state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_0_TEMPERATURE }}"
     device_class: temperature
     unit_of_measurement: °C
+  - name: STEAM_TURBINE_0_TORQUE
+    unique_id: STEAM_TURBINE_0_TORQUE
+    state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_0_TORQUE }}"
+    device_class: temperature
+    unit_of_measurement: Nm
   - name: STEAM_TURBINE_1_BYPASS_ACTUAL
     unique_id: steam_turbine_1_bypass_actual
     state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_1_BYPASS_ACTUAL }}"
@@ -715,6 +721,11 @@ sensor:
     state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_1_TEMPERATURE }}"
     device_class: temperature
     unit_of_measurement: °C
+  - name: STEAM_TURBINE_1_TORQUE
+    unique_id: STEAM_TURBINE_1_TORQUE
+    state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_1_TORQUE }}"
+    device_class: temperature
+    unit_of_measurement: Nm
   - name: STEAM_TURBINE_2_BYPASS_ACTUAL
     unique_id: steam_turbine_2_bypass_actual
     state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_2_BYPASS_ACTUAL }}"
@@ -730,7 +741,11 @@ sensor:
     unique_id: steam_turbine_2_temperature
     state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_2_TEMPERATURE }}"
     device_class: temperature
-    unit_of_measurement: °C
+  - name: STEAM_TURBINE_2_TORQUE
+    unique_id: STEAM_TURBINE_2_TORQUE
+    state: "{{ state_attr('sensor.ws','values').STEAM_TURBINE_2_TORQUE }}"
+    device_class: temperature
+    unit_of_measurement: Nm
   - name: TIME
     unique_id: time
     state: "{{ state_attr('sensor.ws','values').TIME }}"
@@ -817,6 +832,14 @@ sensor:
     unique_id: CONDENSER_CONDENSATE_FLOW_RATE
     state: "{{ state_attr('sensor.ws','values').CONDENSER_CONDENSATE_FLOW_RATE }}"
     unit_of_measurement: kg/sec
+  - name: CONDENSER_EXTRACTION_FLOW_RATE
+    unique_id: CONDENSER_EXTRACTION_FLOW_RATE
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_EXTRACTION_FLOW_RATE }}"
+    unit_of_measurement: L/sec
+  - name: CONDENSER_COOLANT_EVAPORATED
+    unique_id: CONDENSER_COOLANT_EVAPORATED
+    state: "{{ state_attr('sensor.ws','values').CONDENSER_COOLANT_EVAPORATED }}"
+    unit_of_measurement: L/sec
   - name: AMBIENT_TEMPERATURE
     unique_id: AMBIENT_TEMPERATURE
     state: "{{ state_attr('sensor.ws','values').AMBIENT_TEMPERATURE }}"

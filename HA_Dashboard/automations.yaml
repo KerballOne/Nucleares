@@ -38,8 +38,8 @@
       if:
       - condition: numeric_state
         entity_id: sensor.demand_delta
-        above: -4
-        below: 4
+        above: -6
+        below: 6
       - alias: Sec/Pri Flow Ratio is within bounds
         condition: template
         value_template: "{{ (states('sensor.demand_delta') | int > 0 and flow_ratio
@@ -59,6 +59,7 @@
           minutes: 0
           seconds: '{{ 3 / states(''sensor.game_sim_speed'') | int }}'
           milliseconds: 0
+        alias: Wait for (3 / simspeed) seconds
       - alias: NOTIFICATION
         action: persistent_notification.create
         data:
@@ -83,7 +84,8 @@
       else:
       - variables:
           target_mscv: '{{ max(min(states(''sensor.mscv''+loop+''opening_actual'')
-            | int + (states(''sensor.demand_delta'') | int / 4) | int,40),2) }}'
+            | int + (states(''sensor.demand_delta'') | int / 6) | int,40),2) }}'
+        alias: target MSCV = current mscv +  (demand_delta / 6)
       - alias: Match Secondary Pump Speed to Target MSCV
         action: rest_command.nucleares_webserver_set
         data:
@@ -126,6 +128,7 @@
           minutes: 0
           seconds: '{{ 10 / states(''sensor.game_sim_speed'') | int }}'
           milliseconds: 0
+        alias: Wait for (10 / simspeed) seconds
   - delay:
       hours: 0
       minutes: 0
@@ -145,7 +148,11 @@
       hours: 0
       minutes: 0
       seconds: 5
-  conditions: []
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.core_state_criticality
+    above: -5
+    below: 5
   actions:
   - variables:
       tgt_reactivity: '{{ min(((states(''input_number.target_core_temp'') | float
