@@ -34,7 +34,7 @@
         "mode": "box"
       },
       {
-        "id": "timestamp_2",
+        "id": "timestamp",
         "min": 0.0,
         "max": 10000.0,
         "icon": "mdi:clock-time-eight",
@@ -45,4 +45,5 @@
       }
     ]
   }
+
 }
